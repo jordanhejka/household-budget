@@ -228,6 +228,53 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ink); }
 .key li { display: flex; align-items: center; gap: 6px; }
 .key i { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
 
+/* Locked subscription rows */
+.locked-head { display: flex; align-items: center; gap: 6px; margin: 12px 0 6px; font-size: .78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.locked-head svg, .lock svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; flex: none; }
+.row.locked > span { font-size: .95rem; padding: 8px 10px; border-radius: 8px; background: var(--bg); border: 1px dashed var(--line); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row.locked > .amt { text-align: right; font-variant-numeric: tabular-nums; }
+.row.locked > .freq { color: var(--muted); font-size: .88rem; }
+.row.locked .lockbtn { font: inherit; cursor: pointer; background: transparent; border: 1px solid transparent; color: var(--muted); border-radius: 8px; height: 2.25rem; display: grid; place-items: center; }
+.row.locked .lockbtn:hover { color: var(--focus); border-color: var(--line); }
+.row.locked .lockbtn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+.lock { display: inline-flex; align-items: center; gap: 4px; font-size: .78rem; color: var(--muted); }
+.dayrow .from { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right; }
+.tag-sub { font-size: .7rem; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 1px 6px; margin-left: 6px; white-space: nowrap; }
+
+/* Subscriptions */
+.sub-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+.sub-range { color: var(--muted); font-size: .85rem; }
+.sub-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin: 20px 0 12px; }
+.sub-tools .field { flex: 1 1 150px; max-width: 220px; }
+.sub-tools .btn { margin-left: auto; }
+.sub-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); }
+.sub-card { display: flex; flex-direction: column; gap: 10px; }
+.sub-card.inactive { opacity: .62; }
+.sub-card .hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.sub-card h4 { margin: 0; font-size: 1.05rem; overflow-wrap: anywhere; }
+.sub-card .desc { margin: 0; color: var(--muted); font-size: .88rem; overflow-wrap: anywhere; }
+.sub-card .price { font-family: "Bricolage Grotesque", "Public Sans", sans-serif; font-size: 1.5rem; font-weight: 700; line-height: 1.1; }
+.sub-card .price small { font-family: "Public Sans", sans-serif; font-size: .8rem; font-weight: 500; color: var(--muted); }
+.sub-card .meta { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: .85rem; }
+.sub-card .meta dt { color: var(--muted); } .sub-card .meta dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.sub-card .ft { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); }
+.sub-card .ft select { width: auto; flex: 1 1 120px; }
+.chip { display: inline-block; font-size: .75rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.pill { font-size: .72rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; flex: none; }
+.pill.active { background: color-mix(in srgb, var(--save) 18%, transparent); color: var(--save); }
+.pill.paused { background: color-mix(in srgb, var(--debts) 22%, transparent); color: var(--debts); }
+.pill.cancelled { background: color-mix(in srgb, var(--over) 16%, transparent); color: var(--over); }
+.upcoming { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.upcoming li { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .9rem; }
+.upcoming li:last-child { border-bottom: 0; }
+.upcoming .dt { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
+.upcoming .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+dialog.sub-form { width: min(560px, calc(100vw - 32px)); }
+.form-grid { display: grid; gap: 12px 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.form-grid .wide { grid-column: 1 / -1; }
+textarea { font: inherit; font-size: .95rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; resize: vertical; min-height: 64px; }
+.form-err { color: var(--over); font-weight: 600; font-size: .88rem; margin: 10px 0 0; }
+
 /* Monthly heatmap */
 .seg-toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; flex-wrap: wrap; }
 .seg-toggle button { font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; border: 0; background: transparent; color: var(--muted); padding: 6px 12px; border-radius: 999px; }
@@ -329,6 +376,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
         <li><button data-page="dashboard" title="Dashboard"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span class="nav-lbl">Dashboard</span></button></li>
         <li><button data-page="income" title="Income"><svg viewBox="0 0 24 24"><path d="M12 3v18M16.5 7.5c0-1.7-2-3-4.5-3s-4.5 1.3-4.5 3S9.5 10.2 12 11s4.5 1.8 4.5 3.7-2 3-4.5 3-4.5-1.3-4.5-3"/></svg><span class="nav-lbl">Income</span></button></li>
         <li><button data-page="plan" title="Spending plan"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="nav-lbl">Spending plan</span></button></li>
+        <li><button data-page="subs" title="Subscriptions"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8"/><path d="M4 3v5h5"/><path d="M4 13a8 8 0 0 0 14.3 4.9L20 16"/><path d="M20 21v-5h-5"/></svg><span class="nav-lbl">Subscriptions</span></button></li>
         <li><button data-page="heatmap" title="Monthly heatmap"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M7 13h2M11 13h2M15 13h2M7 17h2M11 17h2" stroke-width="2.4"/></svg><span class="nav-lbl">Monthly heatmap</span></button></li>
         <li><button data-page="invest" title="Investment"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span class="nav-lbl">Investment</span></button></li>
         <li><button data-page="accounts" title="Account tracking"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M10 10v8M14 10v8M19 10v8M3 21h18"/></svg><span class="nav-lbl">Account tracking</span></button></li>
@@ -351,6 +399,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
         <li>Income and spending plan</li>
         <li>Investment settings</li>
         <li>Account list and every logged month</li>
+        <li>Subscriptions</li>
         <li>Contingency scenarios and backup income</li>
       </ul>
       <label class="check"><input type="checkbox" id="resetCheck">I confirm I want to delete all data</label>
@@ -358,6 +407,29 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     <div class="confirm-actions">
       <button class="btn ghost" id="resetCancel">Cancel</button>
       <button class="btn danger" id="resetConfirm" disabled>Delete all data</button>
+    </div>
+  </dialog>
+
+  <dialog class="confirm sub-form" id="subDialog" aria-labelledby="subDlgTitle">
+    <div class="confirm-body">
+      <h2 id="subDlgTitle">Add subscription</h2>
+      <div class="form-grid">
+        <div class="field wide"><label for="subName">Name</label><input type="text" id="subName" placeholder="e.g. Netflix"></div>
+        <div class="field"><label for="subCost">Cost per bill</label><input type="number" id="subCost" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></div>
+        <div class="field"><label for="subCycle">Billing cycle</label><select id="subCycle"></select></div>
+        <div class="field"><label for="subStart">First bill date</label><input type="date" id="subStart"></div>
+        <div class="field"><label for="subCat">Category</label><select id="subCat"></select></div>
+        <div class="field"><label for="subBucket">Counts in spending plan as</label>
+          <select id="subBucket"><option value="needs">Need</option><option value="wants">Want</option><option value="debts">Debt</option></select></div>
+        <div class="field"><label for="subStatus">Status</label>
+          <select id="subStatus"><option value="active">Active</option><option value="paused">Paused</option><option value="cancelled">Cancelled</option></select></div>
+        <div class="field wide"><label for="subDesc">Description (optional)</label><textarea id="subDesc" placeholder="e.g. Family plan, shared with partner"></textarea></div>
+      </div>
+      <p class="form-err" id="subErr" hidden></p>
+    </div>
+    <div class="confirm-actions">
+      <button class="btn ghost" id="subCancel">Cancel</button>
+      <button class="btn" id="subSave">Add subscription</button>
     </div>
   </dialog>
 
@@ -480,6 +552,54 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
       <div class="foot">
         <button class="btn" data-go="dashboard">See dashboard</button>
         <button class="btn ghost" id="reset">Clear income and spending</button>
+      </div>
+    </section>
+
+    <!-- Subscriptions -->
+    <section id="page-subs" hidden>
+      <h2>Subscriptions</h2>
+      <p class="lede">Track every service you pay for. Active ones flow into your Spending plan and Monthly heatmap automatically. Paused and cancelled ones stay on the list but drop out of every total.</p>
+
+      <div class="sub-top">
+        <div class="seg-toggle" role="group" aria-label="Calculate by">
+          <button data-subp="week" aria-pressed="false">Week</button>
+          <button data-subp="month" aria-pressed="true">Month</button>
+          <button data-subp="year" aria-pressed="false">Year</button>
+        </div>
+        <span class="sub-range" id="subRange"></span>
+      </div>
+
+      <div class="stats">
+        <div class="panel stat"><span id="subCostL">Cost per month</span><b class="num" id="subCostV">$0</b><small id="subCostD"></small></div>
+        <div class="panel stat"><span id="subPaidL">Paid so far this month</span><b class="num" id="subPaidV">$0</b><small id="subPaidD"></small></div>
+        <div class="panel stat"><span id="subUpL">Still to come this month</span><b class="num" id="subUpV">$0</b><small id="subUpD"></small></div>
+      </div>
+
+      <div class="grid2">
+        <div class="panel chart">
+          <h3 id="subCatTitle">Cost by category</h3>
+          <p class="sub">Active subscriptions only</p>
+          <div class="bars" id="subCatBars"></div>
+        </div>
+        <div class="panel chart">
+          <h3>Coming up</h3>
+          <p class="sub">Next bills from active subscriptions</p>
+          <ul class="upcoming" id="subNext"></ul>
+        </div>
+      </div>
+
+      <div class="sub-tools">
+        <div class="field"><label for="subFilter">Show</label>
+          <select id="subFilter"><option value="all">All statuses</option><option value="active">Active</option><option value="paused">Paused</option><option value="cancelled">Cancelled</option></select></div>
+        <div class="field"><label for="subSort">Sort by</label>
+          <select id="subSort"><option value="next">Next bill</option><option value="cost">Cost (highest)</option><option value="name">Name</option><option value="category">Category</option></select></div>
+        <button class="btn" id="subAdd">Add subscription</button>
+      </div>
+      <div class="sub-grid" id="subList"></div>
+      <div class="panel" id="subEmpty" hidden>
+        <p style="margin:0 0 12px">No subscriptions yet. Add your first one, or load a few examples to see how it works.</p>
+        <button class="btn" id="subAdd2">Add subscription</button>
+        <button class="btn ghost" id="subExample">Fill with example subscriptions</button>
       </div>
     </section>
 
@@ -715,6 +835,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   var FREQ = {
     weekly: { label: "Weekly", perMonth: 52 / 12 }, biweekly: { label: "Every 2 weeks", perMonth: 26 / 12 },
     semimonthly: { label: "Twice a month", perMonth: 2 }, monthly: { label: "Monthly", perMonth: 1 },
+    quarterly: { label: "Every 3 months", perMonth: 1 / 3 }, semiannual: { label: "Every 6 months", perMonth: 1 / 6 },
     annual: { label: "Yearly", perMonth: 1 / 12 }
   };
   var CATS = ["needs", "wants", "debts"];
@@ -723,7 +844,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   var LS_KEY = "household-budget-v1";
   function fmt(n) { return (n < 0 ? "−" : "") + money.format(Math.abs(n)); }
   function uid() { return Math.random().toString(36).slice(2, 10); }
-  function blank() { return { incomes: [], needs: [], wants: [], debts: [], scenario: { stopped: [], adj: {}, extra: [] }, accounts: [], snapshots: {}, tracking: { view: "net", horizon: 12 } }; }
+  function blank() { return { incomes: [], needs: [], wants: [], debts: [], scenario: { stopped: [], adj: {}, extra: [] }, accounts: [], snapshots: {}, tracking: { view: "net", horizon: 12 }, subs: [], subView: { period: "month", filter: "all", sort: "next" } }; }
   function monthly(r) { var a = parseFloat(r.amount); return isFinite(a) && a > 0 ? a * (FREQ[r.freq] || FREQ.monthly).perMonth : 0; }
   function sum(list) { return list.reduce(function (t, r) { return t + monthly(r); }, 0); }
   function pct(n, d) { return d > 0 ? Math.round((n / d) * 100) : 0; }
@@ -735,6 +856,8 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     st.scenario.extra.forEach(function (r) { if (!r.id) r.id = uid(); });
     st.accounts = st.accounts || []; st.snapshots = st.snapshots || {};
     st.tracking = Object.assign({ view: "net", horizon: 12 }, st.tracking || {});
+    st.subs = st.subs || []; st.subs.forEach(function (r) { if (!r.id) r.id = uid(); });
+    st.subView = Object.assign({ period: "month", filter: "all", sort: "next" }, st.subView || {});
     ["incomes"].concat(CATS).forEach(function (k) { (st[k] || []).forEach(function (r) { if (!r.id) r.id = uid(); }); });
     return st;
   }
@@ -776,14 +899,50 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   var PH = { needs: "e.g. Mortgage", wants: "e.g. Dining out", debts: "e.g. Car loan" };
   function renderCat(cat) {
     var box = document.querySelector('[data-cat="' + cat + '"] .rows'); box.innerHTML = "";
-    if (!state[cat].length) box.innerHTML = '<p class="empty">Nothing here yet.</p>';
+    var subs = subItems(cat);
+    if (!state[cat].length && !subs.length) box.innerHTML = '<p class="empty">Nothing here yet.</p>';
     state[cat].forEach(function (it) { box.appendChild(rowEl(state[cat], it, PH[cat], function () { renderCat(cat); })); });
+    if (subs.length) {
+      var h = document.createElement("p"); h.className = "locked-head"; h.innerHTML = LOCK_SVG + "From Subscriptions"; box.appendChild(h);
+      subs.forEach(function (it) {
+        var wrap = document.createElement("div"), row = document.createElement("div");
+        row.className = "row locked";
+        row.innerHTML = '<span title="' + esc(it.name || "Unnamed") + '">' + esc(it.name || "Unnamed") + '</span><span class="amt">' + money2.format(parseFloat(it.amount) || 0) + '</span>' +
+          '<span class="freq">' + (FREQ[it.freq] || FREQ.monthly).label + '</span>' +
+          '<button class="lockbtn" type="button" title="Edit in Subscriptions" aria-label="Edit ' + esc(it.name || "subscription") + ' in Subscriptions"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>';
+        row.querySelector("button").addEventListener("click", function () { goEditSub(it.subId); });
+        var hint = document.createElement("p"); hint.className = "monthly num";
+        hint.hidden = it.freq === "monthly"; hint.textContent = "≈ " + money.format(monthly(it)) + " per month";
+        wrap.append(row, hint); box.appendChild(wrap);
+      });
+    }
   }
 
   /* ---------- Totals ---------- */
+  /* Active subscriptions show up as read-only spending items */
+  var SUB_TO_FREQ = { weekly: "weekly", biweekly: "biweekly", monthly: "monthly", quarterly: "quarterly", semiannual: "semiannual", yearly: "annual" };
+  var LOCK_SVG = '<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  function subDay(sub) {
+    var st = parseDay(sub.start); if (!st) return "";
+    if (sub.cycle === "weekly" || sub.cycle === "biweekly") {
+      var t = today0(), first = billsBetween(sub, new Date(t.getFullYear(), t.getMonth(), 1), new Date(t.getFullYear(), t.getMonth() + 1, 0))[0];
+      if (first) return first.getDate();
+    }
+    return st.getDate();
+  }
+  function subItems(cat) {
+    return (state.subs || []).filter(function (s) { return (s.status || "active") === "active" && (s.bucket || "wants") === cat && parseFloat(s.cost) > 0; })
+      .map(function (s) { return { id: "sub:" + s.id, subId: s.id, sub: true, name: s.name, amount: String(s.cost), freq: SUB_TO_FREQ[s.cycle] || "monthly", day: subDay(s) }; });
+  }
+  function allItems(cat) { return state[cat].concat(subItems(cat)); }
+  function goEditSub(subId) {
+    var sb = state.subs.find(function (x) { return x.id === subId; });
+    show("subs"); if (sb) openSub(sb);
+  }
+
   function totals() {
     var inc = sum(state.incomes);
-    var t = { needs: sum(state.needs), wants: sum(state.wants), debts: sum(state.debts) };
+    var t = { needs: sum(allItems("needs")), wants: sum(allItems("wants")), debts: sum(allItems("debts")) };
     t.inc = inc; t.spent = t.needs + t.wants + t.debts; t.left = inc - t.spent;
     return t;
   }
@@ -879,7 +1038,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
 
     // Biggest costs
     var items = [];
-    CATS.forEach(function (c) { state[c].forEach(function (r) { if (monthly(r) > 0) items.push({ n: r.name || "Unnamed", v: monthly(r), c: c }); }); });
+    CATS.forEach(function (c) { allItems(c).forEach(function (r) { if (monthly(r) > 0) items.push({ n: r.name || "Unnamed", v: monthly(r), c: c }); }); });
     items.sort(function (a, b) { return b.v - a.v; });
     var top = items.slice(0, 8), maxCost = top.length ? top[0].v : 0;
     $("costBars").innerHTML = top.length ? top.map(function (r) { return barRow(r.n, r.v, maxCost, "var(--" + r.c + ")"); }).join("") : '<p class="empty">No costs added yet.</p>';
@@ -900,7 +1059,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     var t = { inc: 0, needs: 0, wants: 0, debts: 0, backup: sum(state.scenario.extra), lost: 0 };
     state.incomes.forEach(function (r) { if (state.scenario.stopped.indexOf(r.id) < 0) t.inc += monthly(r); else t.lost += monthly(r); });
     t.inc += t.backup;
-    CATS.forEach(function (c) { state[c].forEach(function (r) { t[c] += scenarioAmt(r); }); });
+    CATS.forEach(function (c) { allItems(c).forEach(function (r) { t[c] += scenarioAmt(r); }); });
     t.spent = t.needs + t.wants + t.debts; t.left = t.inc - t.spent;
     return t;
   }
@@ -930,15 +1089,15 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     // Cuts
     var box = $("cgCutsList"); box.innerHTML = "";
     CATS.forEach(function (c) {
-      if (!state[c].length) return;
+      var items = allItems(c); if (!items.length) return;
       var g = document.createElement("div"); g.className = "cut-group"; g.style.setProperty("--c", "var(--" + c + ")");
       g.innerHTML = '<h4><span>' + CAT_LABEL[c] + '</span><span class="num" data-gt="' + c + '"></span></h4>' +
         '<div class="cut-head"><span></span><span>Cut</span><span>Today</span><span>Scenario</span></div>';
-      state[c].forEach(function (r) {
+      items.forEach(function (r) {
         var cur = monthly(r), sc = scenarioAmt(r);
         var row = document.createElement("div"); row.className = "cut" + (sc === 0 && cur > 0 ? " off" : "");
         row.innerHTML = '<input type="checkbox" aria-label="Cut ' + esc(r.name || "item") + '"' + (sc === 0 && cur > 0 ? " checked" : "") + '>' +
-          '<span class="nm">' + esc(r.name || "Unnamed") + '</span><span class="was">' + money.format(cur) + '</span>' +
+          '<span class="nm">' + esc(r.name || "Unnamed") + (r.sub ? '<span class="tag-sub">Subscription</span>' : "") + '</span><span class="was">' + money.format(cur) + '</span>' +
           '<input type="number" min="0" step="any" inputmode="decimal" aria-label="Scenario monthly amount for ' + esc(r.name || "item") + '" value="' + Math.round(sc) + '">';
         var cb = row.querySelector('input[type="checkbox"]'), num = row.querySelector('input[type="number"]');
         cb.addEventListener("change", function () {
@@ -972,7 +1131,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     var msg = $("cgMsg");
     if (!state.scenario.stopped.length && !t.backup) { msg.className = "guide"; msg.textContent = "Tick an income stream below to start a scenario."; }
     else if (t.left < 0) { msg.className = "warn"; msg.textContent = "You'd need to cut " + money.format(-t.left) + " more per month to break even." +
-      (state.wants.length && t.wants === 0 ? " Wants are fully cut, so the rest has to come from needs or debts." : ""); }
+      (allItems("wants").length && t.wants === 0 ? " Wants are fully cut, so the rest has to come from needs or debts." : ""); }
     else { msg.className = "ok"; msg.textContent = "This budget fits. You'd still save " + money.format(t.left) + " a month."; }
     $("cgLost").textContent = money.format(t.lost);
     $("cgBackup").textContent = money.format(t.backup);
@@ -985,7 +1144,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   $("cgSuggest").addEventListener("click", function () {
     var t = scenarioTotals(); var gap = -t.left;
     if (gap <= 0) { renderContingency(); return; }
-    var wants = state.wants.filter(function (r) { return scenarioAmt(r) > 0; }).sort(function (a, b) { return scenarioAmt(b) - scenarioAmt(a); });
+    var wants = allItems("wants").filter(function (r) { return scenarioAmt(r) > 0; }).sort(function (a, b) { return scenarioAmt(b) - scenarioAmt(a); });
     for (var i = 0; i < wants.length && gap > 0; i++) {
       var amt = scenarioAmt(wants[i]);
       if (amt <= gap) { state.scenario.adj[wants[i].id] = 0; gap -= amt; }
@@ -1123,6 +1282,180 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     renderInvestForm(); save();
   });
 
+  /* ---------- Subscriptions ---------- */
+  var SUB_CYCLES = {
+    weekly: { label: "Weekly", short: "wk", days: 7, perYear: 52 }, biweekly: { label: "Every 2 weeks", short: "2 wks", days: 14, perYear: 26 },
+    monthly: { label: "Monthly", short: "mo", months: 1, perYear: 12 }, quarterly: { label: "Every 3 months", short: "3 mo", months: 3, perYear: 4 },
+    semiannual: { label: "Every 6 months", short: "6 mo", months: 6, perYear: 2 }, yearly: { label: "Yearly", short: "yr", months: 12, perYear: 1 }
+  };
+  var SUB_CATS = ["Entertainment", "Fitness", "Productivity", "Food/Grocery", "Finance", "Shopping", "Lifestyle", "Home", "Social", "Education",
+    "Transportation", "Cloud/Dev Tools", "News/Magazines", "Gaming", "Health & Wellness", "Business", "Utilities", "Pets", "Travel", "Developer",
+    "Kids", "Charity", "Services", "Creative", "Other"];
+  var PERIOD_DIV = { week: 52, month: 12, year: 1 };
+  var money2 = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  var dShort = new Intl.DateTimeFormat("en-CA", { month: "short", day: "numeric" });
+  var dLong = new Intl.DateTimeFormat("en-CA", { month: "short", day: "numeric", year: "numeric" });
+  Object.keys(SUB_CYCLES).forEach(function (k) { var o = document.createElement("option"); o.value = k; o.textContent = SUB_CYCLES[k].label; $("subCycle").appendChild(o); });
+  SUB_CATS.forEach(function (c) { var o = document.createElement("option"); o.value = c; o.textContent = c; $("subCat").appendChild(o); });
+
+  function today0() { var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function parseDay(s) { if (!s) return null; var p = String(s).split("-"); if (p.length < 3) return null; var d = new Date(+p[0], +p[1] - 1, +p[2]); return isNaN(d) ? null : d; }
+  function isoDay(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function billN(start, cyc, n) {
+    var c = SUB_CYCLES[cyc] || SUB_CYCLES.monthly;
+    if (c.days) return addDays(start, c.days * n);
+    var m = start.getMonth() + c.months * n, y = start.getFullYear() + Math.floor(m / 12); m = ((m % 12) + 12) % 12;
+    return new Date(y, m, Math.min(start.getDate(), new Date(y, m + 1, 0).getDate()));
+  }
+  function billsBetween(sub, a, b) {
+    var s = parseDay(sub.start); if (!s || b < s) return [];
+    var c = SUB_CYCLES[sub.cycle] || SUB_CYCLES.monthly, n0 = 0;
+    if (a > s) n0 = Math.max(0, Math.floor(((a - s) / 864e5) / (c.days || c.months * 30.44)) - 2);
+    var out = [];
+    for (var n = n0; n < n0 + 1000; n++) { var d = billN(s, sub.cycle, n); if (d > b) break; if (d >= a) out.push(d); }
+    return out;
+  }
+  function nextBill(sub) { var t = today0(); var r = billsBetween(sub, t, addDays(t, 800)); return r[0] || null; }
+  function subPerYear(sub) { var c = parseFloat(sub.cost); return c > 0 ? c * (SUB_CYCLES[sub.cycle] || SUB_CYCLES.monthly).perYear : 0; }
+  function periodRange(p) {
+    var t = today0();
+    if (p === "week") { var st = addDays(t, -((t.getDay() + 6) % 7)); return [st, addDays(st, 6)]; }
+    if (p === "year") return [new Date(t.getFullYear(), 0, 1), new Date(t.getFullYear(), 11, 31)];
+    return [new Date(t.getFullYear(), t.getMonth(), 1), new Date(t.getFullYear(), t.getMonth() + 1, 0)];
+  }
+  var PERIOD_WORD = { week: "this week", month: "this month", year: "this year" };
+
+  function renderSubs() {
+    var v = state.subView, P = v.period, t = today0(), rng = periodRange(P);
+    document.querySelectorAll("[data-subp]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-subp") === P)); });
+    $("subRange").textContent = dLong.format(rng[0]) + " to " + dLong.format(rng[1]);
+    $("subFilter").value = v.filter; $("subSort").value = v.sort;
+
+    var active = state.subs.filter(function (s) { return (s.status || "active") === "active"; });
+    var nPaused = state.subs.filter(function (s) { return s.status === "paused"; }).length;
+    var nCanc = state.subs.filter(function (s) { return s.status === "cancelled"; }).length;
+    var perYear = active.reduce(function (a, s) { return a + subPerYear(s); }, 0);
+    var saved = state.subs.filter(function (s) { return s.status === "paused" || s.status === "cancelled"; }).reduce(function (a, s) { return a + subPerYear(s); }, 0);
+    var paid = 0, paidN = 0, up = 0, upN = 0;
+    active.forEach(function (s) {
+      var c = parseFloat(s.cost) || 0;
+      billsBetween(s, rng[0], rng[1]).forEach(function (d) { if (d <= t) { paid += c; paidN++; } else { up += c; upN++; } });
+    });
+    var unit = { week: "week", month: "month", year: "year" }[P];
+    $("subCostL").textContent = "Cost per " + unit;
+    $("subCostV").textContent = money2.format(perYear / PERIOD_DIV[P]);
+    $("subCostD").textContent = active.length + " active" + (nPaused ? " · " + nPaused + " paused" : "") + (nCanc ? " · " + nCanc + " cancelled" : "") +
+      (saved ? " · saving " + money2.format(saved / PERIOD_DIV[P]) + "/" + unit : "");
+    $("subPaidL").textContent = "Paid so far " + PERIOD_WORD[P];
+    $("subPaidV").textContent = money2.format(paid);
+    $("subPaidD").textContent = paidN + " bill" + (paidN === 1 ? "" : "s") + " through today";
+    $("subUpL").textContent = "Still to come " + PERIOD_WORD[P];
+    $("subUpV").textContent = money2.format(up);
+    $("subUpD").textContent = upN + " bill" + (upN === 1 ? "" : "s") + " by " + dShort.format(rng[1]);
+
+    // Category bars
+    var byCat = {};
+    active.forEach(function (s) { var k = s.category || "Other"; byCat[k] = (byCat[k] || 0) + subPerYear(s) / PERIOD_DIV[P]; });
+    var cats = Object.keys(byCat).sort(function (a, b) { return byCat[b] - byCat[a]; });
+    $("subCatTitle").textContent = "Cost by category per " + unit;
+    $("subCatBars").innerHTML = cats.length ? cats.map(function (k) { return barRow(k, byCat[k], byCat[cats[0]], "var(--income)"); }).join("")
+      : '<p class="empty">No active subscriptions yet.</p>';
+
+    // Coming up
+    var next = active.map(function (s) { return { s: s, d: nextBill(s) }; }).filter(function (x) { return x.d; }).sort(function (a, b) { return a.d - b.d; }).slice(0, 6);
+    $("subNext").innerHTML = next.length ? next.map(function (x) {
+      var days = Math.round((x.d - t) / 864e5);
+      return '<li><span class="dt">' + (days === 0 ? "Today" : days === 1 ? "Tomorrow" : dShort.format(x.d)) + '</span><span class="nm">' + esc(x.s.name || "Unnamed") + '</span><span class="num">' + money2.format(parseFloat(x.s.cost) || 0) + '</span></li>';
+    }).join("") : '<li style="display:block;border:0"><span class="empty">Nothing scheduled.</span></li>';
+
+    // List
+    var list = state.subs.filter(function (s) { return v.filter === "all" || (s.status || "active") === v.filter; });
+    var key = { next: function (s) { var d = nextBill(s); return d ? d.getTime() : Infinity; }, cost: function (s) { return -subPerYear(s); },
+      name: function (s) { return (s.name || "").toLowerCase(); }, category: function (s) { return (s.category || "") + (s.name || "").toLowerCase(); } }[v.sort];
+    list.sort(function (a, b) { var ka = key(a), kb = key(b); return ka < kb ? -1 : ka > kb ? 1 : 0; });
+    $("subEmpty").hidden = state.subs.length > 0;
+    $("subList").hidden = !state.subs.length;
+    var box = $("subList"); box.innerHTML = "";
+    if (state.subs.length && !list.length) box.innerHTML = '<p class="empty">No subscriptions with this status.</p>';
+    list.forEach(function (s) {
+      var st = s.status || "active", c = SUB_CYCLES[s.cycle] || SUB_CYCLES.monthly, nb = st === "active" ? nextBill(s) : null;
+      var card = document.createElement("article"); card.className = "panel sub-card" + (st === "active" ? "" : " inactive");
+      card.innerHTML = '<div class="hd"><div><h4>' + esc(s.name || "Unnamed") + '</h4><span class="chip">' + esc(s.category || "Other") + '</span></div>' +
+        '<span class="pill ' + st + '">' + { active: "Active", paused: "Paused", cancelled: "Cancelled" }[st] + '</span></div>' +
+        '<div class="price num">' + money2.format(parseFloat(s.cost) || 0) + ' <small>/ ' + c.short + '</small></div>' +
+        (s.desc ? '<p class="desc">' + esc(s.desc) + '</p>' : "") +
+        '<dl class="meta"><dt>Per ' + unit + '</dt><dd>' + money2.format(subPerYear(s) / PERIOD_DIV[P]) + '</dd>' +
+        '<dt>Next bill</dt><dd>' + (nb ? dLong.format(nb) : st === "active" ? "–" : "Not billing") + '</dd>' +
+        '<dt>Counts as</dt><dd>' + { needs: "Need", wants: "Want", debts: "Debt" }[s.bucket || "wants"] + '</dd>' +
+        '<dt>Started</dt><dd>' + (parseDay(s.start) ? dLong.format(parseDay(s.start)) : "–") + '</dd></dl>' +
+        '<div class="ft"><select aria-label="Status for ' + esc(s.name || "subscription") + '"><option value="active">Active</option><option value="paused">Paused</option><option value="cancelled">Cancelled</option></select>' +
+        '<button class="link" data-act="edit">Edit</button><button class="link danger" data-act="del">Delete</button></div>';
+      var sel = card.querySelector("select"); sel.value = st;
+      sel.addEventListener("change", function () { s.status = sel.value; save(); renderSubs(); });
+      card.querySelector('[data-act="edit"]').addEventListener("click", function () { openSub(s); });
+      card.querySelector('[data-act="del"]').addEventListener("click", function () {
+        ask({ title: "Delete " + (s.name || "this subscription") + "?", message: "It will be removed from your list. To keep a record instead, set it to Cancelled.", ok: "Delete" }, function () {
+          state.subs.splice(state.subs.indexOf(s), 1); save(); renderSubs();
+        });
+      });
+      box.appendChild(card);
+    });
+  }
+
+  var subDlg = $("subDialog"), subEditing = null, subFocus = null;
+  function openSub(sub) {
+    subEditing = sub || null; subFocus = document.activeElement;
+    $("subDlgTitle").textContent = sub ? "Edit subscription" : "Add subscription";
+    $("subSave").textContent = sub ? "Save changes" : "Add subscription";
+    $("subName").value = sub ? sub.name || "" : "";
+    $("subCost").value = sub ? sub.cost || "" : "";
+    $("subDesc").value = sub ? sub.desc || "" : "";
+    $("subStart").value = sub && sub.start ? sub.start : isoDay(today0());
+    $("subCycle").value = sub ? sub.cycle || "monthly" : "monthly";
+    $("subCat").value = sub ? sub.category || "Other" : "Entertainment";
+    $("subStatus").value = sub ? sub.status || "active" : "active";
+    $("subBucket").value = sub ? sub.bucket || "wants" : "wants";
+    $("subErr").hidden = true;
+    if (subDlg.showModal) subDlg.showModal(); else subDlg.setAttribute("open", "");
+    $("subName").focus();
+  }
+  function closeSub() { if (subDlg.close) subDlg.close(); else subDlg.removeAttribute("open"); }
+  subDlg.addEventListener("close", function () { if (subFocus && subFocus.isConnected && subFocus.focus) subFocus.focus(); });
+  subDlg.addEventListener("click", function (e) { if (e.target === subDlg) closeSub(); });
+  $("subCancel").addEventListener("click", closeSub);
+  $("subSave").addEventListener("click", function () {
+    var name = $("subName").value.trim(), cost = parseFloat($("subCost").value), start = $("subStart").value, err = $("subErr");
+    var problem = !name ? "Add a name." : !(cost >= 0) || $("subCost").value === "" ? "Add the cost per bill." : !parseDay(start) ? "Pick the first bill date." : "";
+    if (problem) { err.textContent = problem; err.hidden = false; return; }
+    var data = { name: name, cost: String(cost), desc: $("subDesc").value.trim(), start: start, cycle: $("subCycle").value, category: $("subCat").value, status: $("subStatus").value, bucket: $("subBucket").value };
+    if (subEditing) Object.assign(subEditing, data); else state.subs.push(Object.assign({ id: uid() }, data));
+    subFocus = null; closeSub(); save(); renderSubs();
+  });
+  document.querySelectorAll("[data-subp]").forEach(function (b) { b.addEventListener("click", function () { state.subView.period = b.getAttribute("data-subp"); save(); renderSubs(); }); });
+  $("subFilter").addEventListener("change", function () { state.subView.filter = $("subFilter").value; save(); renderSubs(); });
+  $("subSort").addEventListener("change", function () { state.subView.sort = $("subSort").value; save(); renderSubs(); });
+  $("subAdd").addEventListener("click", function () { openSub(null); });
+  $("subAdd2").addEventListener("click", function () { openSub(null); });
+  $("subExample").addEventListener("click", function () {
+    var t = today0();
+    function ago(days) { return isoDay(addDays(t, -days)); }
+    function sb(n, c, cyc, cat, st, start, desc, bucket) { return { id: uid(), name: n, cost: String(c), cycle: cyc, category: cat, status: st, start: start, desc: desc || "", bucket: bucket || "wants" }; }
+    state.subs = [
+      sb("Netflix", 18.99, "monthly", "Entertainment", "active", ago(200), "Standard plan"),
+      sb("Spotify Family", 21.99, "monthly", "Entertainment", "active", ago(410), "Shared with household"),
+      sb("Gym membership", 54.99, "biweekly", "Fitness", "active", ago(95)),
+      sb("iCloud+ 200 GB", 3.99, "monthly", "Cloud/Dev Tools", "active", ago(600), "Family photo backup", "needs"),
+      sb("Adobe Creative Cloud", 29.99, "monthly", "Creative", "active", ago(150)),
+      sb("Amazon Prime", 99, "yearly", "Shopping", "active", ago(300)),
+      sb("Meal kit", 79.99, "weekly", "Food/Grocery", "paused", ago(60), "Paused for the summer", "needs"),
+      sb("News subscription", 7.99, "monthly", "News/Magazines", "cancelled", ago(380)),
+      sb("Pet food delivery", 64, "monthly", "Pets", "active", ago(45), "", "needs"),
+      sb("Hockey streaming", 159.99, "yearly", "Entertainment", "active", ago(20), "Season pass")
+    ];
+    save(); renderSubs();
+  });
+
   /* ---------- Monthly heatmap ---------- */
   var hmView = "net", hmSel = null;
   var HM_GROUPS = [["incomes", "Income", "var(--income)"], ["needs", "Needs", "var(--needs)"], ["wants", "Wants", "var(--wants)"], ["debts", "Debts", "var(--debts)"]];
@@ -1134,14 +1467,14 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     else if (f === "biweekly") { var s1 = ((d - 1) % 14) + 1; days = [s1, s1 + 14, s1 + 28]; }
     else if (f === "semimonthly") { days = [d, d + 15 > 31 ? d - 15 : d + 15].sort(function (x, y) { return x - y; }); }
     else days = [d];
-    var amt = f === "annual" ? a / 12 : a;
+    var amt = f === "annual" ? a / 12 : f === "quarterly" ? a / 3 : f === "semiannual" ? a / 6 : a;
     return days.filter(function (x) { return x >= 1 && x <= 31; }).map(function (x) { return { day: x, amt: amt }; });
   }
   function hmData() {
     var days = []; for (var i = 0; i <= 31; i++) days.push({ inn: 0, out: 0, cat: { incomes: 0, needs: 0, wants: 0, debts: 0 }, items: [] });
     var missing = 0;
     HM_GROUPS.forEach(function (g) {
-      state[g[0]].forEach(function (it) {
+      (g[0] === "incomes" ? state.incomes : allItems(g[0])).forEach(function (it) {
         if (!(parseFloat(it.amount) > 0)) return;
         var occ = occurrences(it);
         if (!occ.length) { missing++; return; }
@@ -1149,7 +1482,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
           var D = days[o.day];
           if (g[0] === "incomes") D.inn += o.amt; else D.out += o.amt;
           D.cat[g[0]] += o.amt;
-          D.items.push({ name: it.name || "Unnamed", amt: o.amt, group: g[0], color: g[2] });
+          D.items.push({ name: (it.name || "Unnamed") + (it.sub ? " (subscription)" : ""), amt: o.amt, group: g[0], color: g[2] });
         });
       });
     });
@@ -1302,6 +1635,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
       });
       box.querySelectorAll("[data-count]").forEach(function (el) {
         var list = state[el.getAttribute("data-count")];
+        if (!list.length) return;
         el.textContent = list.filter(function (it) { return occurrences(it).length; }).length + " of " + list.length + " placed";
       });
       return;
@@ -1309,10 +1643,12 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     assignBuilt = true; box.innerHTML = "";
     var any = false;
     HM_GROUPS.forEach(function (g) {
-      var list = state[g[0]]; if (!list.length) return; any = true;
+      var subsHere = g[0] === "incomes" ? [] : subItems(g[0]);
+      var list = state[g[0]]; if (!list.length && !subsHere.length) return; any = true;
       var set = list.filter(function (it) { return occurrences(it).length; }).length;
       var wrap = document.createElement("div"); wrap.className = "assign-group"; wrap.style.setProperty("--c", g[2]);
       wrap.innerHTML = '<h4><span>' + g[1] + '</span><span data-count="' + g[0] + '">' + set + " of " + list.length + ' placed</span></h4>';
+      if (!list.length) wrap.querySelector("[data-count]").textContent = "";
       list.forEach(function (it) {
         if (!it.id) it.id = uid();
         var row = document.createElement("label"); row.className = "dayrow";
@@ -1323,6 +1659,14 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
           '<select aria-label="Day ' + esc(it.name || "item") + ' lands">' + opts + '</select>';
         var sel = row.querySelector("select"); sel.value = it.day ? String(it.day) : "";
         sel.addEventListener("change", function () { it.day = sel.value ? +sel.value : ""; save(); renderHeatmap(); });
+        wrap.appendChild(row);
+      });
+      subsHere.forEach(function (it) {
+        var row = document.createElement("div"); row.className = "dayrow";
+        row.innerHTML = '<span class="nm">' + esc(it.name || "Unnamed") + '<span class="tag-sub">Subscription</span><small>' + money2.format(parseFloat(it.amount) || 0) + " · " + (FREQ[it.freq] || FREQ.monthly).label + '</small>' +
+          '<small class="when">' + whenText(it) + '</small></span>' +
+          '<span class="from"><span class="lock">' + LOCK_SVG + 'Set by bill date</span><button class="link" type="button">Edit in Subscriptions</button></span>';
+        row.querySelector("button").addEventListener("click", function () { goEditSub(it.subId); });
         wrap.appendChild(row);
       });
       box.appendChild(wrap);
@@ -1632,15 +1976,18 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   /* ---------- Navigation ---------- */
   function show(page) {
     current = page;
-    ["dashboard", "income", "plan", "heatmap", "invest", "accounts", "contingency"].forEach(function (p) { $("page-" + p).hidden = p !== page; });
+    ["dashboard", "income", "plan", "subs", "heatmap", "invest", "accounts", "contingency"].forEach(function (p) { $("page-" + p).hidden = p !== page; });
     document.querySelectorAll(".navlist button").forEach(function (b) {
       if (b.getAttribute("data-page") === page) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
     $("month").hidden = !(page === "income" || page === "plan");
+    renderSummary();
+    if (page === "plan") CATS.forEach(renderCat);
     if (page === "dashboard") renderDashboard();
     if (page === "contingency") renderContingency();
     if (page === "invest") renderInvestForm();
     if (page === "heatmap") { assignBuilt = false; renderHeatmap(); }
+    if (page === "subs") renderSubs();
     if (page === "accounts") renderAccounts();
     window.scrollTo({ top: 0 });
   }
@@ -1683,14 +2030,14 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
         needs: [it("Mortgage", 3200, "monthly", 1), it("Property tax", 5400, "annual", 1), it("Groceries", 210, "weekly", 6), it("Hydro and gas", 320, "monthly", 18), it("Car insurance", 210, "monthly", 15)],
         wants: [it("Dining out", 400, "monthly", 20), it("Streaming", 45, "monthly", 9), it("Hockey league", 650, "annual", 1), it("Travel fund", 300, "monthly", 25)],
         debts: [it("Car loan", 540, "monthly", 22), it("Credit card minimum", 120, "monthly", 26)],
-        accounts: keepAcc.accounts, snapshots: keepAcc.snapshots, tracking: keepAcc.tracking
+        accounts: keepAcc.accounts, snapshots: keepAcc.snapshots, tracking: keepAcc.tracking, subs: state.subs, subView: state.subView
       });
       renderAll(); save();
     }
   });
   $("reset").addEventListener("click", function () {
     ask({ title: "Clear income and spending?", message: "This removes every income source and spending item. Accounts and investment settings stay.", ok: "Clear" }, function () {
-      var keepA = { accounts: state.accounts, snapshots: state.snapshots, tracking: state.tracking, invest: state.invest };
+      var keepA = { accounts: state.accounts, snapshots: state.snapshots, tracking: state.tracking, invest: state.invest, subs: state.subs, subView: state.subView };
       state = normalize(Object.assign(blank(), keepA)); renderAll(); save();
     });
   });
