@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -326,7 +327,7 @@ table.wk { border-collapse: separate; border-spacing: 4px; width: 100%; font-siz
 .log-row small { display: block; color: var(--muted); font-size: .8rem; font-weight: 400; }
 .acct-row { display: grid; grid-template-columns: 14px minmax(0, 1fr) minmax(7rem, 10rem) 2.25rem; gap: 8px; align-items: center; margin-bottom: 6px; }
 .acct-row .dot { width: 12px; height: 12px; border-radius: 50%; }
-#acctList { container-type: inline-size; }
+#acctList { container-type: inline-size; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); column-gap: 20px; }
 @container (max-width: 340px) {
   .acct-row { grid-template-columns: 14px minmax(0, 1fr) 2.25rem; }
   .acct-row select { grid-column: 2 / 3; grid-row: 2; }
@@ -340,6 +341,137 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
 .hist .up { color: var(--save); } .hist .down { color: var(--over); }
 .link { font: inherit; font-size: .85rem; cursor: pointer; background: none; border: 0; color: var(--focus); padding: 2px 4px; text-decoration: underline; }
 .link.danger { color: var(--over); }
+.hist .mbtn { font: inherit; font-weight: 600; cursor: pointer; background: none; border: 0; padding: 0; color: var(--ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.hist .mbtn:hover { text-decoration-color: var(--ink); }
+
+/* Monthly balances: year stepper + month toggle */
+.mb-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; margin-bottom: 16px; }
+.mb-head h3 { margin: 0; font-size: 1rem; }
+.year-step { display: inline-flex; align-items: center; gap: 4px; }
+.year-step b { font-family: "Bricolage Grotesque", "Public Sans", sans-serif; font-size: 1.15rem; min-width: 3.2rem; text-align: center; font-variant-numeric: tabular-nums; }
+.year-step button { font: inherit; cursor: pointer; width: 34px; height: 34px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); display: grid; place-items: center; }
+.year-step button:disabled { opacity: .35; cursor: not-allowed; }
+.year-step svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+.mb-wrap { container-type: inline-size; }
+.month-toggle { display: flex; width: 100%; border: 1px solid var(--line); border-radius: 999px; padding: 4px; gap: 2px; }
+.month-toggle button { font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; border: 0; background: transparent; color: var(--muted);
+  flex: 1 1 0; min-width: 0; padding: 8px 4px; border-radius: 999px; position: relative; white-space: nowrap; }
+.month-toggle button:hover:not(:disabled) { color: var(--ink); }
+.month-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.month-toggle button:disabled { opacity: .35; cursor: not-allowed; }
+.month-toggle button.has::after { content: ""; position: absolute; left: 50%; bottom: 3px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--save); }
+.month-toggle button[aria-pressed="true"].has::after { background: var(--bg); }
+@container (max-width: 700px) {
+  .month-toggle { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-radius: 16px; }
+  .month-toggle button { border-radius: 10px; }
+}
+.mb-sub { color: var(--muted); font-size: .85rem; margin: 14px 0 10px; }
+.bal-grid { container-type: inline-size; }
+.bal-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(7rem, 10rem) minmax(7rem, 10rem) minmax(5.5rem, 7rem) 2.25rem; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.bal-row.head { color: var(--muted); font-size: .78rem; font-weight: 600; padding: 0 0 6px; }
+.bal-row.head span:nth-child(n+2):nth-child(-n+4) { text-align: right; }
+.bal-row.total { border-bottom: 0; font-weight: 700; }
+.bal-row.total .v { text-align: right; font-variant-numeric: tabular-nums; }
+.bal-row .nm { display: flex; align-items: center; gap: 8px; min-width: 0; font-weight: 500; }
+.bal-row .nm span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bal-row .nm small { color: var(--muted); font-weight: 400; font-size: .78rem; margin-left: 4px; }
+.bal-row .ch { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.bal-row .ch.up { color: var(--save); } .bal-row .ch.down { color: var(--over); }
+.bal-row .mlbl { display: none; color: var(--muted); font-size: .72rem; font-weight: 600; margin-bottom: 2px; }
+@container (max-width: 560px) {
+  .bal-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 2.25rem; row-gap: 6px; }
+  .bal-row.head { display: none; }
+  .bal-row .nm { grid-column: 1 / 3; }
+  .bal-row .ch { grid-column: 3; grid-row: 1; text-align: right; }
+  .bal-row .del { grid-column: 3; grid-row: 2; }
+  .bal-row .mlbl { display: block; }
+  .bal-row.total { grid-template-columns: 1fr auto; }
+  .bal-row.total .v.s, .bal-row.total .v.e { display: none; }
+}
+.mb-foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-top: 10px; }
+
+/* Credit explorer */
+.cx-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 20px; margin-bottom: 18px; }
+.cx-head .lede { margin: 0; }
+.cx-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); align-items: start; }
+.cx-field { margin-bottom: 20px; }
+.cx-field:last-child { margin-bottom: 0; }
+.cx-lbl { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; font-weight: 600; font-size: .92rem; }
+.cx-lbl .val { display: flex; align-items: center; gap: 6px; }
+.cx-lbl .val input { width: 8.5rem; font-weight: 600; }
+.cx-lbl .val.mo input { width: 5rem; }
+.cx-lbl .val span { color: var(--muted); font-weight: 500; font-size: .85rem; }
+input[type="range"] { width: 100%; padding: 0; border: 0; background: transparent; accent-color: var(--focus); height: 22px; cursor: pointer; }
+.range-ends { display: flex; justify-content: space-between; color: var(--muted); font-size: .75rem; margin-top: 2px; }
+.type-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.type-pick button { font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--muted);
+  border-radius: 12px; padding: 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.type-pick button svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.type-pick button[aria-pressed="true"] { border-color: var(--focus); color: var(--ink); box-shadow: inset 0 0 0 1px var(--focus); background: color-mix(in srgb, var(--focus) 8%, transparent); }
+.rates { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
+.rates summary { cursor: pointer; font-weight: 600; font-size: .92rem; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.rates summary::-webkit-details-marker { display: none; }
+.rates summary small { color: var(--muted); font-weight: 400; }
+.rates summary::after { content: "+"; font-size: 1.2rem; color: var(--muted); }
+.rates[open] summary::after { content: "−"; }
+.rate-grid { display: grid; gap: 10px 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); margin-top: 12px; }
+.rate-grid .suffix input { padding-right: 2.6rem; }
+.verdict { border-radius: 14px; padding: 16px 18px; background: color-mix(in srgb, var(--save) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--save) 40%, transparent); margin-bottom: 14px; }
+.verdict .k { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--save); margin: 0 0 2px; }
+.verdict h3 { font-family: "Bricolage Grotesque", "Public Sans", sans-serif; font-size: clamp(1.3rem, 3.4vw, 1.7rem); margin: 0 0 6px; line-height: 1.2; }
+.verdict p { margin: 0; color: var(--muted); font-size: .92rem; }
+.opts { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+.opt { border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.opt.win { border: 2px solid var(--save); padding: 13px; }
+.opt .t { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; font-weight: 700; font-size: .95rem; }
+.opt .t span:first-child { display: flex; align-items: center; gap: 8px; }
+.opt .t svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; flex: none; }
+.opt .badge { font-size: .7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--save) 18%, transparent); color: var(--save); white-space: nowrap; }
+.opt .cost { font-family: "Bricolage Grotesque", "Public Sans", sans-serif; font-size: 1.55rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.opt.win .cost { color: var(--save); }
+.opt .cost small { display: block; font-family: "Public Sans", sans-serif; font-size: .75rem; font-weight: 500; color: var(--muted); margin-top: 2px; }
+.opt dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: .82rem; border-top: 1px solid var(--line); padding-top: 8px; }
+.opt dt { color: var(--muted); } .opt dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.opt dd.bad { color: var(--over); } .opt dd.good { color: var(--save); }
+.opt .how { font-size: .8rem; color: var(--muted); margin: 0; }
+.fit { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 14px; }
+.fit .top { display: flex; justify-content: space-between; gap: 10px; font-size: .9rem; margin-bottom: 6px; flex-wrap: wrap; }
+.fit .bar { height: 12px; }
+.tipbox { display: flex; gap: 10px; align-items: flex-start; margin-top: 18px; padding: 12px 14px; border-radius: 12px; font-size: .88rem;
+  background: color-mix(in srgb, var(--debts) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--debts) 35%, transparent); }
+.tipbox svg { width: 18px; height: 18px; flex: none; stroke: var(--debts); fill: none; stroke-width: 2; margin-top: 2px; }
+.tipbox p { margin: 0; }
+.ct { display: grid; }
+.ct-row { display: grid; grid-template-columns: minmax(9rem, 1fr) 1.5fr 1.5fr; border-bottom: 1px solid var(--line); }
+.ct-row > div { padding: 12px 14px; font-size: .92rem; }
+.ct-row .f { font-weight: 600; }
+.ct-row .c { background: color-mix(in srgb, var(--income) 6%, transparent); }
+.ct-row .l { background: color-mix(in srgb, var(--needs) 7%, transparent); }
+.ct-row.hd > div { font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+.ct-row.hd .c { border-bottom: 3px solid var(--income); } .ct-row.hd .l { border-bottom: 3px solid var(--needs); }
+.ct-row.hd svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.ct-row .m { display: none; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 2px; }
+@container (max-width: 600px) {
+  .ct-row { grid-template-columns: 1fr 1fr; }
+  .ct-row .f { grid-column: 1 / -1; padding-bottom: 4px; }
+  .ct-row.hd { display: none; }
+  .ct-row .m { display: block; }
+}
+@container (max-width: 380px) { .ct-row { grid-template-columns: 1fr; } }
+.quiz { max-width: 680px; margin: 0 auto; }
+.quiz .qtop { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
+.quiz .qtop span { font-size: .8rem; font-weight: 700; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; }
+.quiz .scn { font-size: clamp(1.05rem, 2.6vw, 1.25rem); line-height: 1.5; padding: 18px; border-radius: 12px; background: color-mix(in srgb, var(--focus) 7%, var(--surface)); border: 1px solid var(--line); margin: 0 0 14px; }
+.quiz .ans { display: grid; gap: 8px; }
+.quiz .ans button { font: inherit; font-weight: 600; text-align: left; cursor: pointer; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); }
+.quiz .ans button:hover:not(:disabled) { border-color: var(--focus); }
+.quiz .ans button.right { border: 2px solid var(--save); padding: 13px 15px; }
+.quiz .ans button.wrong { border: 2px solid var(--over); padding: 13px 15px; }
+.quiz .ans button:disabled { cursor: default; }
+.quiz .fb { margin: 14px 0; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); }
+.quiz .fb b { display: block; margin-bottom: 4px; }
+.quiz .fb.ok b { color: var(--save); } .quiz .fb.no b { color: var(--over); }
+.quiz .fb p { margin: 0; color: var(--muted); }
 
 /* Contingency */
 .cg-grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
@@ -380,6 +512,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
         <li><button data-page="heatmap" title="Monthly heatmap"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M7 13h2M11 13h2M15 13h2M7 17h2M11 17h2" stroke-width="2.4"/></svg><span class="nav-lbl">Monthly heatmap</span></button></li>
         <li><button data-page="invest" title="Investment"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span class="nav-lbl">Investment</span></button></li>
         <li><button data-page="accounts" title="Account tracking"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M10 10v8M14 10v8M19 10v8M3 21h18"/></svg><span class="nav-lbl">Account tracking</span></button></li>
+        <li><button data-page="credit" title="Credit explorer"><svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/></svg><span class="nav-lbl">Credit explorer</span></button></li>
         <li><button data-page="contingency" title="Contingency plan"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span class="nav-lbl">Contingency plan</span></button></li>
       </ul>
     </nav>
@@ -400,6 +533,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
         <li>Investment settings</li>
         <li>Account list and every logged month</li>
         <li>Subscriptions</li>
+        <li>Credit explorer settings</li>
         <li>Contingency scenarios and backup income</li>
       </ul>
       <label class="check"><input type="checkbox" id="resetCheck">I confirm I want to delete all data</label>
@@ -714,10 +848,99 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
       </div>
     </section>
 
+    <!-- Credit explorer -->
+    <section id="page-credit" hidden>
+      <div class="cx-head">
+        <div>
+          <h2>Credit explorer</h2>
+          <p class="lede">Planning a purchase you'll pay off over time? See whether a credit card or a line of credit costs you less.</p>
+        </div>
+        <div class="seg-toggle" role="group" aria-label="Credit explorer view">
+          <button data-cx="decide" aria-pressed="true">Decide</button>
+          <button data-cx="compare" aria-pressed="false">Compare</button>
+          <button data-cx="quiz" aria-pressed="false">Quiz</button>
+        </div>
+      </div>
+
+      <div id="cx-decide">
+        <div class="cx-grid">
+          <div class="panel">
+            <div class="cx-field">
+              <div class="field"><label for="cxName">What are you buying? (optional)</label><input type="text" id="cxName" placeholder="e.g. New furnace"></div>
+            </div>
+            <div class="cx-field">
+              <div class="cx-lbl"><label for="cxAmtR">Amount</label><span class="val"><input type="number" id="cxAmt" min="0" step="50" inputmode="decimal" aria-label="Amount in dollars"></span></div>
+              <input type="range" id="cxAmtR" min="100" max="25000" step="100" aria-label="Amount slider">
+              <div class="range-ends"><span>$100</span><span>$25,000</span></div>
+            </div>
+            <div class="cx-field">
+              <div class="cx-lbl"><label for="cxMoR">Time to pay it off</label><span class="val mo"><input type="number" id="cxMo" min="1" max="60" step="1" inputmode="numeric" aria-label="Months to pay off"><span>months</span></span></div>
+              <input type="range" id="cxMoR" min="1" max="60" step="1" aria-label="Months slider">
+              <div class="range-ends"><span>1 month</span><span>5 years</span></div>
+            </div>
+            <div class="cx-field">
+              <div class="cx-lbl"><span>How will you pay?</span></div>
+              <div class="type-pick" role="group" aria-label="Type of transaction">
+                <button type="button" data-cxt="purchase" aria-pressed="true"><svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg>Buying at a store or online</button>
+                <button type="button" data-cxt="cash" aria-pressed="false"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>Need cash or a transfer</button>
+              </div>
+            </div>
+            <details class="rates" id="cxRates">
+              <summary><span>Your rates <small id="cxRateSum"></small></span></summary>
+              <div class="rate-grid">
+                <div class="field"><label for="cxCc">Card purchase rate</label><div class="suffix"><input type="number" id="cxCc" step="0.01" inputmode="decimal"><span>%</span></div></div>
+                <div class="field"><label for="cxCash">Card cash advance rate</label><div class="suffix"><input type="number" id="cxCash" step="0.01" inputmode="decimal"><span>%</span></div></div>
+                <div class="field"><label for="cxFee">Cash advance fee</label><div class="suffix"><input type="number" id="cxFee" step="0.01" inputmode="decimal"><span>$</span></div></div>
+                <div class="field"><label for="cxLoc">Line of credit rate</label><div class="suffix"><input type="number" id="cxLoc" step="0.01" inputmode="decimal"><span>%</span></div></div>
+                <div class="field"><label for="cxRew">Card rewards</label><div class="suffix"><input type="number" id="cxRew" step="0.1" min="0" inputmode="decimal"><span>% back</span></div></div>
+              </div>
+              <p class="note">Starting values are typical Canadian rates. Swap in the numbers from your own statements for a real answer.</p>
+            </details>
+          </div>
+
+          <div class="panel" aria-live="polite">
+            <div class="verdict" id="cxVerdict"></div>
+            <div class="opts" id="cxOpts"></div>
+            <div class="fit" id="cxFit"></div>
+          </div>
+        </div>
+
+        <div class="panel chart" style="margin-top:16px">
+          <h3>Cost by payoff time</h3>
+          <p class="sub" id="cxChartSub">Interest and fees minus rewards, for every payoff length from 1 month to 5 years</p>
+          <div class="chart-box" id="cxChartBox"><svg id="cxChart" viewBox="0 0 680 300" role="img"></svg><div class="tip" id="cxTip" hidden></div></div>
+          <ul class="key" id="cxKey"></ul>
+          <p class="note" id="cxCross"></p>
+        </div>
+        <div class="tipbox" id="cxTipBox"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg><p id="cxTipText"></p></div>
+        <p class="note">Estimates assume equal monthly payments and a steady rate. This is a planning tool, not financial advice.</p>
+      </div>
+
+      <div id="cx-compare" hidden>
+        <div class="panel">
+          <h3 style="margin:0 0 2px;font-size:1.1rem">How they work</h3>
+          <p class="sub" style="color:var(--muted);font-size:.88rem;margin:0 0 14px">The basic rules behind each kind of credit.</p>
+          <div class="ct" id="cxTable"></div>
+        </div>
+      </div>
+
+      <div id="cx-quiz" hidden>
+        <div class="panel"><div class="quiz" id="cxQuiz"></div></div>
+      </div>
+    </section>
+
     <!-- Account tracking -->
     <section id="page-accounts" hidden>
       <h2>Account tracking</h2>
-      <p class="lede">At the end of each month, log what each account is sitting at. Over time you'll see the real trend, and where it's heading.</p>
+      <p class="lede">Add your accounts, then pick a month to log where each one started and ended. Over time you'll see the real trend, and where it's heading.</p>
+
+      <div class="panel" style="margin-bottom:16px">
+        <h3 style="margin:0 0 2px;font-size:1rem">Your accounts</h3>
+        <p class="sub" style="color:var(--muted);font-size:.85rem;margin:0 0 12px">Chequing, savings, TFSA, RRSP, credit cards, loans. Debts count against net worth.</p>
+        <div id="acctList"></div>
+        <button class="add" id="atAddAcct">Add account</button>
+        <div id="atEmptyEx" hidden style="margin-top:12px"><button class="btn ghost small" data-example>Fill with example data</button></div>
+      </div>
 
       <div class="stats">
         <div class="panel stat"><span id="atLatestL">Latest net worth</span><b class="num" id="atLatest">–</b><small id="atLatestD"></small></div>
@@ -751,30 +974,17 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
         <p class="note">Projections assume your average monthly change so far keeps going. Big one-off months can tilt the trend.</p>
       </div>
 
-      <div class="grid2" style="margin-top:16px">
-        <div class="panel" id="atLogPanel">
-          <h3 style="margin:0 0 2px;font-size:1rem">Log month-end balances</h3>
-          <p class="sub" style="color:var(--muted);font-size:.85rem;margin:0 0 12px">Pick the month, then enter each balance. For debts, enter what you owe as a positive number.</p>
-          <div class="field" style="max-width:220px;margin-bottom:8px"><label for="atMonth">Month</label><input type="month" id="atMonth"></div>
-          <div id="atLogRows"></div>
-          <div class="foot" style="margin-top:14px">
-            <button class="btn" id="atSave">Save balances</button>
-            <span class="status" id="atSaved" aria-live="polite"></span>
+      <div class="panel" style="margin-top:16px" id="atMonthly">
+        <div class="mb-head">
+          <h3>Monthly balances</h3>
+          <div class="year-step">
+            <button type="button" id="atYearPrev" aria-label="Previous year"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <b id="atYear" aria-live="polite"></b>
+            <button type="button" id="atYearNext" aria-label="Next year"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
           </div>
         </div>
-        <div class="panel">
-          <h3 style="margin:0 0 2px;font-size:1rem">Your accounts</h3>
-          <p class="sub" style="color:var(--muted);font-size:.85rem;margin:0 0 12px">Chequing, savings, TFSA, RRSP, credit cards, loans. Debts count against net worth.</p>
-          <div id="acctList"></div>
-          <button class="add" id="atAddAcct">Add account</button>
-          <div id="atEmptyEx" hidden style="margin-top:12px"><button class="btn ghost small" data-example>Fill with example data</button></div>
-        </div>
-      </div>
-
-      <div class="panel" style="margin-top:16px">
-        <h3 style="margin:0 0 2px;font-size:1rem">History</h3>
-        <div class="tbl-wrap"><table class="hist" id="atTable"></table></div>
-        <p class="empty" id="atTableEmpty">No months logged yet.</p>
+        <div class="mb-wrap"><div class="month-toggle" role="group" aria-label="Choose a month" id="atMonths"></div></div>
+        <div id="atMonthBody"></div>
       </div>
     </section>
 
@@ -844,7 +1054,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   var LS_KEY = "household-budget-v1";
   function fmt(n) { return (n < 0 ? "−" : "") + money.format(Math.abs(n)); }
   function uid() { return Math.random().toString(36).slice(2, 10); }
-  function blank() { return { incomes: [], needs: [], wants: [], debts: [], scenario: { stopped: [], adj: {}, extra: [] }, accounts: [], snapshots: {}, tracking: { view: "net", horizon: 12 }, subs: [], subView: { period: "month", filter: "all", sort: "next" } }; }
+  function blank() { return { incomes: [], needs: [], wants: [], debts: [], scenario: { stopped: [], adj: {}, extra: [] }, accounts: [], snapshots: {}, openings: {}, tracking: { view: "net", horizon: 12 }, subs: [], subView: { period: "month", filter: "all", sort: "next" }, credit: null }; }
   function monthly(r) { var a = parseFloat(r.amount); return isFinite(a) && a > 0 ? a * (FREQ[r.freq] || FREQ.monthly).perMonth : 0; }
   function sum(list) { return list.reduce(function (t, r) { return t + monthly(r); }, 0); }
   function pct(n, d) { return d > 0 ? Math.round((n / d) * 100) : 0; }
@@ -854,10 +1064,11 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     var st = Object.assign(blank(), s || {});
     st.scenario = Object.assign({ stopped: [], adj: {}, extra: [] }, st.scenario || {});
     st.scenario.extra.forEach(function (r) { if (!r.id) r.id = uid(); });
-    st.accounts = st.accounts || []; st.snapshots = st.snapshots || {};
+    st.accounts = st.accounts || []; st.snapshots = st.snapshots || {}; st.openings = st.openings || {};
     st.tracking = Object.assign({ view: "net", horizon: 12 }, st.tracking || {});
     st.subs = st.subs || []; st.subs.forEach(function (r) { if (!r.id) r.id = uid(); });
     st.subView = Object.assign({ period: "month", filter: "all", sort: "next" }, st.subView || {});
+    st.credit = st.credit || null;
     ["incomes"].concat(CATS).forEach(function (k) { (st[k] || []).forEach(function (r) { if (!r.id) r.id = uid(); }); });
     return st;
   }
@@ -1456,6 +1667,229 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     save(); renderSubs();
   });
 
+  /* ---------- Credit explorer ---------- */
+  var CX_DEFAULT = { name: "", amount: 2000, months: 12, type: "purchase", cc: 20.99, cash: 22.99, fee: 5, loc: 9.5, reward: 1 };
+  var cxView = "decide", CX_SVG = { card: '<svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg>', loc: '<svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M10 10v8M14 10v8M19 10v8M3 21h18"/></svg>', hyb: '<svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="13" height="10" rx="1.5"/><path d="M2.5 8.5h13"/><path d="M14 19h7M18 16l3 3-3 3"/></svg>' };
+  function cx() { if (!state.credit) state.credit = Object.assign({}, CX_DEFAULT); return state.credit; }
+  function num(v, d) { var n = parseFloat(v); return isFinite(n) ? n : d; }
+  function amort(P, apr, n) {
+    var r = apr / 100 / 12, pay = r > 0 ? P * r / (1 - Math.pow(1 + r, -n)) : P / n;
+    return { pay: pay, interest: Math.max(0, pay * n - P) };
+  }
+  // Every option returns { interest, fees, rewards, pay, net, total }
+  function cxOptions(c, n, P) {
+    var out = {}, type = c.type, rew = Math.max(0, num(c.reward, 0)) / 100;
+    var ccApr = num(c.cc, 0), cashApr = num(c.cash, 0), locApr = num(c.loc, 0), fee = Math.max(0, num(c.fee, 0));
+    if (type === "purchase") {
+      var a = n === 1 ? { pay: P, interest: 0 } : amort(P, ccApr, n);
+      out.card = { interest: a.interest, fees: 0, rewards: P * rew, pay: a.pay };
+    } else {
+      var b = amort(P + fee, cashApr, n);
+      out.card = { interest: b.interest, fees: fee, rewards: 0, pay: b.pay };
+    }
+    var l = amort(P, locApr, n);
+    out.loc = { interest: l.interest, fees: 0, rewards: 0, pay: l.pay };
+    if (type === "purchase" && n > 1) {
+      // Charge it on the card, then pay the card in full with the line of credit before the due date.
+      // The grace period covers roughly the first month, so the line of credit carries one month less interest.
+      out.hyb = { interest: Math.max(0, l.interest - P * locApr / 100 / 12), fees: 0, rewards: P * rew, pay: l.pay };
+    }
+    Object.keys(out).forEach(function (k) { var o = out[k]; o.net = o.interest + o.fees - o.rewards; o.total = P + o.interest + o.fees; });
+    return out;
+  }
+  var CX_NAME = { card: "Credit card", loc: "Line of credit", hyb: "Card, then line of credit" };
+  var CX_COLOR = { card: "var(--income)", loc: "var(--needs)", hyb: "var(--wants)" };
+  function cxBest(opts) { return Object.keys(opts).sort(function (a, b) { return opts[a].net - opts[b].net; }); }
+
+  function renderCredit() {
+    document.querySelectorAll("[data-cx]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-cx") === cxView)); });
+    ["decide", "compare", "quiz"].forEach(function (v) { $("cx-" + v).hidden = v !== cxView; });
+    if (cxView === "decide") { cxFillForm(); cxRender(); }
+    if (cxView === "compare") renderCxCompare();
+    if (cxView === "quiz") renderCxQuiz();
+  }
+  function cxFillForm() {
+    var c = cx(), act = document.activeElement;
+    [["cxName", "name"], ["cxAmt", "amount"], ["cxAmtR", "amount"], ["cxMo", "months"], ["cxMoR", "months"], ["cxCc", "cc"], ["cxCash", "cash"], ["cxFee", "fee"], ["cxLoc", "loc"], ["cxRew", "reward"]].forEach(function (f) {
+      if ($(f[0]) !== act) $(f[0]).value = c[f[1]];
+    });
+    document.querySelectorAll("[data-cxt]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-cxt") === c.type)); });
+  }
+  function cxRender() {
+    var c = cx(), P = Math.max(0, num(c.amount, 0)), n = Math.min(60, Math.max(1, Math.round(num(c.months, 1))));
+    $("cxRateSum").textContent = "· card " + num(c.cc, 0) + "%, line of credit " + num(c.loc, 0) + "%";
+    if (!(P > 0)) {
+      $("cxVerdict").innerHTML = '<p class="k">Start here</p><h3>Enter an amount</h3><p>Add what the purchase costs and how long you’ll take to pay it off.</p>';
+      $("cxOpts").innerHTML = ""; $("cxFit").innerHTML = ""; $("cxChart").innerHTML = ""; $("cxKey").innerHTML = ""; $("cxCross").textContent = ""; return;
+    }
+    var opts = cxOptions(c, n, P), order = cxBest(opts), win = order[0], second = order[1];
+    var save = opts[second].net - opts[win].net, what = c.name ? esc(c.name) : "this purchase", mo = n + " month" + (n === 1 ? "" : "s");
+    var head, body;
+    if (save < 1) { head = "It’s a tie"; body = "Both options cost about the same for " + what + " over " + mo + ". Pick whichever is easier to manage."; }
+    else if (win === "card" && n === 1) { head = "Use your credit card"; body = "Pay the full statement balance and the grace period means no interest" + (opts.card.rewards ? ", plus about " + money2.format(opts.card.rewards) + " back in rewards." : "."); }
+    else if (win === "card") { head = "Use your credit card"; body = "For " + what + " over " + mo + ", the card works out " + money2.format(save) + " cheaper than the next option."; }
+    else if (win === "hyb") { head = "Put it on your card, then pay the card with your line of credit"; body = "You keep the card’s rewards and grace period, then carry the balance at the lower line of credit rate. Saves " + money2.format(save) + " over " + mo + "."; }
+    else { head = "Use your line of credit"; body = (c.type === "cash" ? "A card cash advance adds a fee and charges a higher rate from day one. " : "Its lower rate wins over " + mo + ". ") + "Saves " + money2.format(save) + " versus the next option."; }
+    $("cxVerdict").innerHTML = '<p class="k">Best way to pay' + (c.name ? " for " + esc(c.name) : "") + '</p><h3>' + head + '</h3><p>' + body + '</p>';
+
+    var HOW = { card: c.type === "cash" ? "Cash advance from the card." : (n === 1 ? "Pay the full statement by the due date." : "Carry the balance on the card."),
+      loc: "Transfer from the line of credit to chequing, then pay.", hyb: "Charge it, then pay the card in full from the line of credit before the due date." };
+    $("cxOpts").innerHTML = ["card", "hyb", "loc"].filter(function (k) { return opts[k]; }).map(function (k) {
+      var o = opts[k], w = k === win && save >= 1;
+      return '<div class="opt' + (w ? " win" : "") + '"><div class="t"><span style="color:' + CX_COLOR[k] + '">' + CX_SVG[k] + '<span style="color:var(--ink)">' + CX_NAME[k] + '</span></span>' + (w ? '<span class="badge">Best</span>' : "") + '</div>' +
+        '<div class="cost">' + (o.net < 0 ? "−" : "") + money2.format(Math.abs(o.net)) + '<small>' + (o.net < 0 ? "you come out ahead" : "true cost of borrowing") + '</small></div>' +
+        '<dl><dt>Interest</dt><dd class="' + (o.interest > 0.5 ? "bad" : "") + '">' + money2.format(o.interest) + '</dd>' +
+        (o.fees ? '<dt>Fees</dt><dd class="bad">' + money2.format(o.fees) + '</dd>' : "") +
+        (o.rewards ? '<dt>Rewards</dt><dd class="good">−' + money2.format(o.rewards) + '</dd>' : "") +
+        '<dt>Monthly</dt><dd>' + money2.format(o.pay) + '</dd><dt>Total paid</dt><dd>' + money2.format(o.total) + '</dd></dl>' +
+        '<p class="how">' + HOW[k] + '</p></div>';
+    }).join("");
+
+    // Fit against the budget
+    var left = totals().left, pay = opts[win].pay, fit = $("cxFit");
+    if (!(totals().inc > 0)) fit.innerHTML = '<p class="note" style="margin:0">Add your income and spending plan to see how this payment fits your monthly budget.</p>';
+    else if (left <= 0) fit.innerHTML = '<p class="warn" style="margin:0">Your budget has nothing left over each month, so any payment here would come out of savings or add to debt.</p>';
+    else {
+      var share = pay / left, over = pay > left + 0.5;
+      fit.innerHTML = '<div class="top"><span>Monthly payment vs. what’s left in your budget</span><b class="num">' + money2.format(pay) + " of " + money.format(left) + '</b></div>' +
+        '<span class="bar" style="display:block"><i style="width:' + Math.min(100, share * 100) + '%;background:' + (over ? "var(--over)" : share > 0.5 ? "var(--debts)" : "var(--save)") + '"></i></span>' +
+        '<p class="' + (over ? "warn" : "guide") + '" style="margin-top:8px">' + (over ? "That’s " + money2.format(pay - left) + " more than your budget has left each month." : "Uses " + Math.round(share * 100) + "% of what’s left over each month.") +
+        ' <button class="link" type="button" id="cxFitBtn">Fastest payoff my budget allows</button></p>';
+      $("cxFitBtn").addEventListener("click", function () {
+        for (var m = 1; m <= 60; m++) { var o2 = cxOptions(c, m, P), b2 = cxBest(o2)[0]; if (o2[b2].pay <= left) { c.months = m; save_(); cxFillForm(); cxRender(); return; } }
+        $("cxFitBtn").textContent = "Even 5 years doesn’t fit your current budget";
+      });
+    }
+
+    var tip = c.type === "cash"
+      ? "Card cash advances usually skip the grace period, charge a higher rate and add a fee right away. Moving money from a line of credit to chequing avoids all three."
+      : n === 1 ? "Paying the full statement balance by the due date means you pay no interest on card purchases."
+      : "Once you carry a balance, card interest is usually charged back to the purchase date, so the grace period no longer helps.";
+    $("cxTipText").textContent = tip;
+    renderCxChart(c, P, n);
+  }
+  function save_() { save(); }
+
+  var cxGeo = null;
+  function renderCxChart(c, P, n) {
+    var keys = c.type === "purchase" ? ["card", "hyb", "loc"] : ["card", "loc"], series = {};
+    keys.forEach(function (k) { series[k] = []; });
+    for (var m = 1; m <= 60; m++) { var o = cxOptions(c, m, P); keys.forEach(function (k) { series[k].push((o[k] || o.card).net); }); }
+    var box = $("cxChartBox"), W = Math.max(260, Math.round(box.clientWidth || 680)), H = Math.round(Math.max(200, Math.min(340, W * 0.42)));
+    var L = W < 420 ? 52 : 64, R = 12, T = 14, B = 30, pw = W - L - R, ph = H - T - B, all = [];
+    keys.forEach(function (k) { all = all.concat(series[k]); });
+    var lo = Math.min(0, Math.min.apply(null, all)), hi = Math.max.apply(null, all); if (hi <= lo) hi = lo + 100;
+    var st = niceStep((hi - lo) / 4); lo = Math.floor(lo / st) * st; hi = Math.ceil(hi / st) * st;
+    function X(m) { return L + (m - 1) / 59 * pw; }
+    function Y(v) { return T + ph - (v - lo) / (hi - lo) * ph; }
+    var g = "";
+    for (var v = lo; v <= hi + st / 2; v += st) {
+      g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(v) + '" y2="' + Y(v) + '" style="stroke:var(--line);stroke-width:' + (Math.abs(v) < st / 2 ? 2 : 1) + '"/>';
+      g += '<text x="' + (L - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + short.format(v) + '</text>';
+    }
+    var stepM = pw < 360 ? 12 : 6;
+    for (var mm = 0; mm <= 60; mm += stepM) { var mx = Math.max(1, mm); g += '<text x="' + X(mx) + '" y="' + (H - 8) + '" text-anchor="middle">' + (mm === 0 ? "1 mo" : mm % 12 === 0 ? (mm / 12) + " yr" : mm + " mo") + '</text>'; }
+    g += '<line x1="' + X(n) + '" x2="' + X(n) + '" y1="' + T + '" y2="' + (T + ph) + '" style="stroke:var(--ink);stroke-width:1.5;stroke-dasharray:3 4;opacity:.5"/>';
+    keys.forEach(function (k) {
+      var d = series[k].map(function (val, i) { return (i ? "L" : "M") + X(i + 1).toFixed(1) + " " + Y(val).toFixed(1); }).join(" ");
+      g += '<path d="' + d + '" style="fill:none;stroke:' + CX_COLOR[k] + ';stroke-width:' + (k === "hyb" ? 2.5 : 3) + ';stroke-linejoin:round' + (k === "hyb" ? ";stroke-dasharray:7 4" : "") + '"/>';
+      g += '<circle cx="' + X(n) + '" cy="' + Y(series[k][n - 1]) + '" r="5" style="fill:' + CX_COLOR[k] + ';stroke:var(--surface);stroke-width:2"/>';
+    });
+    g += '<line id="cxGuide" y1="' + T + '" y2="' + (T + ph) + '" style="stroke:var(--ink);stroke-width:1;opacity:0"/>';
+    $("cxChart").setAttribute("viewBox", "0 0 " + W + " " + H);
+    $("cxChart").innerHTML = g;
+    $("cxChart").setAttribute("aria-label", "Cost over payoff time. At " + n + " months: " + keys.map(function (k) { return CX_NAME[k] + " " + money2.format(series[k][n - 1]); }).join(", "));
+    cxGeo = { X: X, W: W, L: L, pw: pw, series: series, keys: keys };
+    $("cxTip").hidden = true;
+    $("cxKey").innerHTML = keys.map(function (k) { return '<li><i style="background:' + CX_COLOR[k] + '"></i>' + CX_NAME[k] + '</li>'; }).join("") +
+      '<li><i style="background:repeating-linear-gradient(90deg,var(--ink) 0 3px,transparent 3px 7px);opacity:.5"></i>Your payoff time</li>';
+    // Crossover between card and line of credit
+    var cross = null; for (var i = 0; i < 60; i++) if (series.loc[i] < series.card[i] - 0.5) { cross = i + 1; break; }
+    $("cxCross").textContent = c.type === "cash" ? "For cash, the line of credit is cheaper at every payoff length."
+      : cross === null ? "The card stays cheaper at every payoff length with these rates."
+      : cross === 1 ? "The line of credit beats carrying a card balance from the very first month."
+      : (cross === 2 ? "The card only wins if you pay it off in full on the first statement. After that, the line of credit takes over" : "The card can win if you pay it off within " + (cross - 1) + " months. After that, the line of credit takes over") + (keys.indexOf("hyb") > -1 ? ", and the card-then-line-of-credit combo usually wins both." : ".");
+  }
+  function cxTipAt(evt) {
+    if (!cxGeo) return;
+    var svg = $("cxChart"), r = svg.getBoundingClientRect(), pt = evt.touches ? evt.touches[0] : evt;
+    var sx = (pt.clientX - r.left) * (cxGeo.W / r.width), m = Math.max(1, Math.min(60, Math.round(1 + (sx - cxGeo.L) / cxGeo.pw * 59)));
+    var x = cxGeo.X(m), gd = $("cxGuide"); gd.setAttribute("x1", x); gd.setAttribute("x2", x); gd.style.opacity = .3;
+    var tip = $("cxTip");
+    tip.innerHTML = m + " month" + (m === 1 ? "" : "s") + "<br>" + cxGeo.keys.map(function (k) { return CX_NAME[k] + " <b>" + money2.format(cxGeo.series[k][m - 1]) + "</b>"; }).join("<br>");
+    tip.hidden = false; tip.style.left = Math.max(110, Math.min(r.width - 110, x * r.width / cxGeo.W)) + "px"; tip.style.top = "14px"; tip.style.transform = "translate(-50%, 0)";
+  }
+  $("cxChartBox").addEventListener("mousemove", cxTipAt);
+  $("cxChartBox").addEventListener("mouseleave", function () { $("cxTip").hidden = true; var g = $("cxGuide"); if (g) g.style.opacity = 0; });
+  $("cxChartBox").addEventListener("touchstart", cxTipAt, { passive: true });
+  $("cxChartBox").addEventListener("touchmove", cxTipAt, { passive: true });
+  if (window.ResizeObserver) {
+    var cxW = 0;
+    new ResizeObserver(function (e) { var w = Math.round(e[0].contentRect.width); if (w && w !== cxW && current === "credit" && cxView === "decide") { cxW = w; cxRender(); } }).observe($("cxChartBox"));
+  }
+  document.querySelectorAll("[data-cx]").forEach(function (b) { b.addEventListener("click", function () { cxView = b.getAttribute("data-cx"); renderCredit(); }); });
+  document.querySelectorAll("[data-cxt]").forEach(function (b) { b.addEventListener("click", function () { cx().type = b.getAttribute("data-cxt"); save(); cxFillForm(); cxRender(); }); });
+  [["cxName", "name"], ["cxAmt", "amount"], ["cxAmtR", "amount"], ["cxMo", "months"], ["cxMoR", "months"], ["cxCc", "cc"], ["cxCash", "cash"], ["cxFee", "fee"], ["cxLoc", "loc"], ["cxRew", "reward"]].forEach(function (f) {
+    $(f[0]).addEventListener("input", function () {
+      var v = $(f[0]).value;
+      if (f[1] === "months" && v !== "") v = Math.min(60, Math.max(1, Math.round(num(v, 1))));
+      cx()[f[1]] = f[1] === "name" ? v : (v === "" ? "" : num(v, 0));
+      if (f[0] === "cxAmtR") $("cxAmt").value = v; if (f[0] === "cxAmt") $("cxAmtR").value = v;
+      if (f[0] === "cxMoR") $("cxMo").value = v; if (f[0] === "cxMo" && v !== "") $("cxMoR").value = v;
+      save(); cxRender();
+    });
+  });
+
+  function renderCxCompare() {
+    var rows = [
+      ["Interest rate", "Higher. Often around 20% to 23% in Canada.", "Lower. Usually prime plus a few percent."],
+      ["Grace period", "Yes. No interest on purchases if you pay the full statement by the due date, usually at least 21 days.", "No. Interest starts the day you borrow."],
+      ["Carrying a balance", "Once you carry a balance, interest is usually charged back to the purchase date.", "Interest only on what you’ve borrowed, for as long as you owe it."],
+      ["Getting the money", "Tap, insert or pay online anywhere cards are accepted.", "Transfer to chequing, then pay by debit, e-transfer or cheque."],
+      ["Cash advances", "Expensive. Higher rate, no grace period and a fee each time.", "No penalty. Every withdrawal is treated the same."],
+      ["Rewards", "Often 1% to 4% back in points or cash.", "Rarely any."],
+      ["Minimum payment", "Small, so a balance can drag on for years.", "Often interest-only, so set your own payoff plan."],
+      ["Best for", "Everyday spending you pay off in full each month.", "Big costs you’ll pay down over months, like a renovation or emergency."]
+    ];
+    $("cxTable").innerHTML = '<div class="ct-row hd"><div></div><div class="c" style="color:var(--income)">' + CX_SVG.card + '<span style="color:var(--ink)">Credit card</span></div><div class="l" style="color:var(--needs)">' + CX_SVG.loc + '<span style="color:var(--ink)">Line of credit</span></div></div>' +
+      rows.map(function (r) { return '<div class="ct-row"><div class="f">' + r[0] + '</div><div class="c"><span class="m">Credit card</span>' + r[1] + '</div><div class="l"><span class="m">Line of credit</span>' + r[2] + '</div></div>'; }).join("");
+  }
+
+  var CX_Q = [
+    { s: "You need $3,000 for a roof repair and plan to pay it off over 12 months.", o: ["Credit card", "Line of credit"], a: 1,
+      e: "A year of card interest at around 20% costs far more than the line of credit’s lower rate. Try $3,000 over 12 months on the Decide tab to see the gap." },
+    { s: "You’re buying a $500 laptop and already have the money in chequing.", o: ["Credit card, paid in full on the statement", "Line of credit"], a: 0,
+      e: "Paying the full statement means no interest, and you still earn rewards. The line of credit would charge interest from day one." },
+    { s: "You’re travelling and need $200 in cash for a vendor who doesn’t take cards.", o: ["Cash advance on your credit card", "Move money from your line of credit to chequing, then use the ATM"], a: 1,
+      e: "Card cash advances charge a fee, a higher rate and interest from day one. A line of credit transfer is just normal, lower-rate borrowing." },
+    { s: "You’re buying a $1,500 couch and will pay it off over 6 months. Your card earns 2% back.", o: ["Carry the balance on the card", "Put it on the card, then pay the card in full from your line of credit", "Line of credit only"], a: 1,
+      e: "The combo gets you the 2% back and the grace period, then the lower line of credit rate for the months you’re paying it down." }
+  ];
+  var cxQ = { i: 0, score: 0, picked: null };
+  function renderCxQuiz() {
+    var box = $("cxQuiz");
+    if (cxQ.i >= CX_Q.length) {
+      box.innerHTML = '<div style="text-align:center;padding:12px 0"><h3 style="font-size:1.5rem;margin:0 0 6px">You got ' + cxQ.score + " of " + CX_Q.length + '</h3>' +
+        '<p style="color:var(--muted);margin:0 0 18px">' + (cxQ.score === CX_Q.length ? "Nailed it. Card for quick payoffs and rewards, line of credit for longer borrowing and cash." : "Rule of thumb: card when you’ll pay it off right away, line of credit when it’ll take months or you need cash.") + '</p>' +
+        '<button class="btn" id="cxRetry">Try again</button></div>';
+      $("cxRetry").addEventListener("click", function () { cxQ = { i: 0, score: 0, picked: null }; renderCxQuiz(); });
+      return;
+    }
+    var q = CX_Q[cxQ.i], done = cxQ.picked !== null;
+    box.innerHTML = '<div class="qtop"><h3 style="margin:0;font-size:1.05rem">What would you do?</h3><span>Question ' + (cxQ.i + 1) + " of " + CX_Q.length + '</span></div>' +
+      '<p class="scn">' + q.s + '</p><div class="ans">' + q.o.map(function (t, i) {
+        var cls = done ? (i === q.a ? "right" : i === cxQ.picked ? "wrong" : "") : "";
+        return '<button type="button" data-qa="' + i + '" class="' + cls + '"' + (done ? " disabled" : "") + '>' + t + '</button>';
+      }).join("") + '</div>' +
+      (done ? '<div class="fb ' + (cxQ.picked === q.a ? "ok" : "no") + '"><b>' + (cxQ.picked === q.a ? "Correct" : "Not quite") + '</b><p>' + q.e + '</p></div>' +
+        '<button class="btn" id="cxNext">' + (cxQ.i + 1 < CX_Q.length ? "Next question" : "See results") + '</button>' : "");
+    box.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () {
+      cxQ.picked = +b.getAttribute("data-qa"); if (cxQ.picked === q.a) cxQ.score++; renderCxQuiz();
+      var nx = $("cxNext"); if (nx) nx.focus();
+    }); });
+    if (done) $("cxNext").addEventListener("click", function () { cxQ.i++; cxQ.picked = null; renderCxQuiz(); });
+  }
+
   /* ---------- Monthly heatmap ---------- */
   var hmView = "net", hmSel = null;
   var HM_GROUPS = [["incomes", "Income", "var(--income)"], ["needs", "Needs", "var(--needs)"], ["wants", "Wants", "var(--wants)"], ["debts", "Debts", "var(--debts)"]];
@@ -1726,8 +2160,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
       state.accounts.map(function (a) { return '<option value="' + a.id + '">' + esc(a.name || "Unnamed account") + '</option>'; }).join("");
     sel.value = cur; if (sel.value !== cur) { sel.value = "net"; state.tracking.view = "net"; }
     $("atHorizon").value = String(state.tracking.horizon);
-    if (!$("atMonth").value) $("atMonth").value = thisMonthKey();
-    renderAcctList(); renderLogRows(); renderHistory(); renderTrack();
+    renderAcctList(); renderMonthPanel(); renderTrack();
   }
   function renderAcctList() {
     var box = $("acctList"); box.innerHTML = "";
@@ -1745,12 +2178,12 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
       nm.addEventListener("change", function () { renderAccountsExceptList(); });
       ty.addEventListener("change", function () { a.type = ty.value; save(); renderAccountsExceptList(); });
       row.querySelector(".del").addEventListener("click", function () {
-        var logged = loggedMonths().some(function (k) { return hasVal(state.snapshots[k][a.id]); });
+        var logged = loggedMonths().some(function (k) { return hasVal(state.snapshots[k][a.id]); }) ||
+          Object.keys(state.openings).some(function (k) { return hasVal(state.openings[k][a.id]); });
         function removeAccount() {
           var i = state.accounts.indexOf(a); if (i > -1) state.accounts.splice(i, 1);
-          Object.keys(state.snapshots).forEach(function (k) {
-            delete state.snapshots[k][a.id];
-            if (!Object.keys(state.snapshots[k]).length) delete state.snapshots[k];
+          [state.snapshots, state.openings].forEach(function (store) {
+            Object.keys(store).forEach(function (k) { delete store[k][a.id]; if (!Object.keys(store[k]).length) delete store[k]; });
           });
           save(); renderAccounts();
         }
@@ -1765,48 +2198,132 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     sel.innerHTML = '<option value="net">Net worth</option>' + (state.accounts.length > 1 ? '<option value="all">All accounts</option>' : "") +
       state.accounts.map(function (a) { return '<option value="' + a.id + '">' + esc(a.name || "Unnamed account") + '</option>'; }).join("");
     sel.value = keep; if (sel.value !== keep) { sel.value = "net"; state.tracking.view = "net"; }
-    renderLogRows(); renderHistory(); renderTrack();
+    renderMonthPanel(); renderTrack();
   }
-  function renderLogRows() {
-    var box = $("atLogRows"), k = $("atMonth").value, snap = state.snapshots[k] || {};
-    box.innerHTML = "";
-    $("atSave").disabled = !state.accounts.length || !k;
-    $("atSave").textContent = state.snapshots[k] ? "Update " + (k ? mLabel(k) : "") : "Save balances";
-    if (!state.accounts.length) { box.innerHTML = '<p class="empty">Add an account to log balances.</p>'; return; }
+  /* Monthly balances: year + month toggle */
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var atSel = { year: new Date().getFullYear(), month: new Date().getMonth() };
+  function mKey(y, m) { return y + "-" + pad(m + 1); }
+  function prevKey(k) { var i = mIdx(k) - 1; return Math.floor(i / 12) + "-" + pad(i % 12 + 1); }
+  function endOf(k, id) { var s0 = state.snapshots[k]; return s0 && hasVal(s0[id]) ? +s0[id] : null; }
+  function startOf(k, id) { var o = state.openings[k]; return o && hasVal(o[id]) ? +o[id] : null; }
+  function carried(k, id) { return endOf(prevKey(k), id); }
+  function effStart(k, id) { var v = startOf(k, id); return v !== null ? v : carried(k, id); }
+  function signed(a, v) { return a.type === "debt" ? -v : v; }
+  function monthHasData(k) { return !!(state.snapshots[k] || state.openings[k]); }
+  function setVal(store, k, id, v) {
+    if (hasVal(v)) { store[k] = store[k] || {}; store[k][id] = +v; }
+    else if (store[k]) { delete store[k][id]; if (!Object.keys(store[k]).length) delete store[k]; }
+  }
+  function isFuture(y, m) { var n = new Date(); return y > n.getFullYear() || (y === n.getFullYear() && m > n.getMonth()); }
+
+  function renderMonthPanel() {
+    var nowY = new Date().getFullYear();
+    $("atYear").textContent = atSel.year;
+    $("atYearNext").disabled = atSel.year >= nowY;
+    renderMonthChips();
+    if (atSel.month === "all") renderYearHistory(); else renderMonthEditor();
+  }
+  function renderMonthChips() {
+    var box = $("atMonths"), html = '<button type="button" data-m="all" aria-pressed="' + (atSel.month === "all") + '">All</button>';
+    MONTHS.forEach(function (lbl, m) {
+      var k = mKey(atSel.year, m), fut = isFuture(atSel.year, m);
+      html += '<button type="button" data-m="' + m + '" aria-pressed="' + (atSel.month === m) + '"' + (fut ? " disabled" : "") +
+        (monthHasData(k) ? ' class="has"' : "") + ' aria-label="' + monthLong.format(new Date(atSel.year, m, 1)) + (monthHasData(k) ? ", has balances" : "") + '">' + lbl + '</button>';
+    });
+    box.innerHTML = html;
+    box.querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var v = b.getAttribute("data-m"); atSel.month = v === "all" ? "all" : +v; renderMonthPanel();
+      });
+    });
+  }
+  function changeCls(a, ch) { if (ch === null || Math.abs(ch) < 0.5) return ""; var good = a.type === "debt" ? ch < 0 : ch > 0; return good ? "up" : "down"; }
+  function renderMonthEditor() {
+    var body = $("atMonthBody"), k = mKey(atSel.year, atSel.month), label = mLabel(k);
+    if (!state.accounts.length) { body.innerHTML = '<p class="mb-sub">Add an account above to start logging balances.</p>'; return; }
+    var h = '<p class="mb-sub">' + label + '. Leave Start blank to carry over last month’s end. For debts, enter what you owe as a positive number.</p>' +
+      '<div class="bal-grid"><div class="bal-row head"><span>Account</span><span>Start of month</span><span>End of month</span><span>Change</span><span></span></div>';
     state.accounts.forEach(function (a) {
-      var row = document.createElement("label"); row.className = "log-row";
-      row.innerHTML = '<span class="nm">' + esc(a.name || "Unnamed account") + '<small>' + ACC_TYPES[a.type || "other"] + '</small></span>' +
-        '<input type="number" step="any" inputmode="decimal" placeholder="0" data-acc="' + a.id + '">';
-      row.querySelector("input").value = hasVal(snap[a.id]) ? snap[a.id] : "";
-      box.appendChild(row);
+      var st = startOf(k, a.id), en = endOf(k, a.id), cr = carried(k, a.id);
+      h += '<div class="bal-row" data-acc="' + a.id + '">' +
+        '<span class="nm"><span class="dot" style="width:10px;height:10px;border-radius:50%;flex:none;background:' + accColor(a) + '"></span><span>' + esc(a.name || "Unnamed account") + '<small>' + ACC_TYPES[a.type || "other"] + '</small></span></span>' +
+        '<label><span class="mlbl">Start</span><input type="number" step="any" inputmode="decimal" data-f="start" aria-label="' + esc(a.name || "Account") + ' start of month" placeholder="' + (cr !== null ? cr : "0") + '" value="' + (st !== null ? st : "") + '"></label>' +
+        '<label><span class="mlbl">End</span><input type="number" step="any" inputmode="decimal" data-f="end" aria-label="' + esc(a.name || "Account") + ' end of month" placeholder="0" value="' + (en !== null ? en : "") + '"></label>' +
+        '<span class="ch" data-ch></span>' +
+        '<button class="del" type="button" aria-label="Clear ' + esc(a.name || "account") + ' balances for ' + label + '" title="Clear this month">×</button></div>';
+    });
+    h += '<div class="bal-row total"><span>Net worth</span><span class="v s" data-ts></span><span class="v e" data-te></span><span class="ch" data-tc></span><span></span></div></div>' +
+      '<div class="mb-foot"><span class="status" id="atSaved" aria-live="polite" style="margin:0"></span>' +
+      '<button class="link danger" type="button" id="atClearMonth"' + (monthHasData(k) ? "" : " hidden") + '>Clear all of ' + label + '</button></div>';
+    body.innerHTML = h;
+    updateMonthCalcs();
+    body.querySelectorAll(".bal-row[data-acc]").forEach(function (row) {
+      var id = row.getAttribute("data-acc");
+      row.querySelectorAll("input").forEach(function (inp) {
+        var store = inp.getAttribute("data-f") === "start" ? state.openings : state.snapshots;
+        inp.addEventListener("input", function () { setVal(store, k, id, inp.value); updateMonthCalcs(); save(); $("atSaved").textContent = "Saved " + label; });
+        inp.addEventListener("change", function () { renderMonthChips(); renderTrack(); $("atClearMonth").hidden = !monthHasData(k); });
+      });
+      row.querySelector(".del").addEventListener("click", function () {
+        setVal(state.openings, k, id, ""); setVal(state.snapshots, k, id, "");
+        save(); renderMonthPanel(); renderTrack();
+      });
+    });
+    $("atClearMonth").addEventListener("click", function () {
+      ask({ title: "Clear " + label + "?", message: "Start and end balances for every account this month will be removed.", ok: "Clear month" }, function () {
+        delete state.snapshots[k]; delete state.openings[k]; save(); renderMonthPanel(); renderTrack();
+      });
     });
   }
-  function renderHistory() {
-    var ks = loggedMonths().reverse(), tbl = $("atTable");
-    $("atTableEmpty").hidden = ks.length > 0; tbl.hidden = !ks.length;
-    if (!ks.length) { tbl.innerHTML = ""; return; }
-    var h = '<thead><tr><th>Month</th>' + state.accounts.map(function (a) { return '<th>' + esc(a.name || "Unnamed") + '</th>'; }).join("") + '<th>Net worth</th><th>Change</th><th></th></tr></thead><tbody>';
-    ks.forEach(function (k, idx) {
-      var snap = state.snapshots[k], nw = netAt(k), prev = ks[idx + 1] ? netAt(ks[idx + 1]) : null;
-      var ch = (nw !== null && prev !== null) ? nw - prev : null;
-      h += '<tr><td>' + mLabel(k) + '</td>' + state.accounts.map(function (a) { return '<td>' + (hasVal(snap[a.id]) ? money.format(+snap[a.id]) : "–") + '</td>'; }).join("") +
-        '<td class="nw">' + (nw === null ? "–" : fmt(nw)) + '</td>' +
-        '<td class="' + (ch > 0 ? "up" : ch < 0 ? "down" : "") + '">' + (ch === null ? "–" : signedFmt(ch)) + '</td>' +
-        '<td><button class="link" data-edit="' + k + '">Edit</button><button class="link danger" data-delm="' + k + '">Delete</button></td></tr>';
+  function updateMonthCalcs() {
+    var k = mKey(atSel.year, atSel.month), ts = 0, te = 0, anyS = false, anyE = false, both = true;
+    $("atMonthBody").querySelectorAll(".bal-row[data-acc]").forEach(function (row) {
+      var a = state.accounts.find(function (x) { return x.id === row.getAttribute("data-acc"); }); if (!a) return;
+      var s0 = effStart(k, a.id), e0 = endOf(k, a.id);
+      var ch = s0 !== null && e0 !== null ? e0 - s0 : null, cell = row.querySelector("[data-ch]");
+      cell.textContent = ch === null ? "–" : (ch > 0 ? "+" : "") + fmt(ch);
+      cell.className = "ch " + changeCls(a, ch);
+      if (s0 !== null) { ts += signed(a, s0); anyS = true; }
+      if (e0 !== null) { te += signed(a, e0); anyE = true; }
+      if (s0 === null || e0 === null) both = false;
     });
-    tbl.innerHTML = h + "</tbody>";
-    tbl.querySelectorAll("[data-edit]").forEach(function (b) { b.addEventListener("click", function () {
-      $("atMonth").value = b.getAttribute("data-edit"); renderLogRows();
-      $("atLogPanel").scrollIntoView({ behavior: "smooth", block: "start" });
-      var first = $("atLogRows").querySelector("input"); if (first) first.focus({ preventScroll: true });
-    }); });
-    tbl.querySelectorAll("[data-delm]").forEach(function (b) { b.addEventListener("click", function () {
+    var body = $("atMonthBody"); if (!body.querySelector("[data-ts]")) return;
+    body.querySelector("[data-ts]").textContent = anyS ? fmt(ts) : "–";
+    body.querySelector("[data-te]").textContent = anyE ? fmt(te) : "–";
+    var tc = body.querySelector("[data-tc]"), d = anyS && anyE ? te - ts : null;
+    tc.textContent = d === null ? "–" : (d > 0 ? "+" : "") + fmt(d) + (both ? "" : "*");
+    tc.title = both ? "" : "Some accounts are missing a start or end balance";
+    tc.className = "ch " + (d > 0.5 ? "up" : d < -0.5 ? "down" : "");
+  }
+  function renderYearHistory() {
+    var body = $("atMonthBody"), y = atSel.year;
+    var ks = []; for (var m = 11; m >= 0; m--) if (monthHasData(mKey(y, m))) ks.push(mKey(y, m));
+    if (!ks.length) { body.innerHTML = '<p class="mb-sub">Nothing logged in ' + y + ' yet. Pick a month above to add balances.</p>'; return; }
+    var h = '<p class="mb-sub">Month-end balances for ' + y + '. Select a month to edit its start and end balances.</p><div class="tbl-wrap"><table class="hist"><thead><tr><th>Month</th>' +
+      state.accounts.map(function (a) { return '<th>' + esc(a.name || "Unnamed") + '</th>'; }).join("") + '<th>Net worth</th><th>Change</th><th></th></tr></thead><tbody>';
+    ks.forEach(function (k) {
+      var snap = state.snapshots[k] || {}, nw = netAt(k), pv = netAt(prevKey(k));
+      var ch = nw !== null && pv !== null ? nw - pv : null;
+      h += '<tr><td><button class="mbtn" data-go-m="' + k + '">' + mLabel(k) + '</button></td>' +
+        state.accounts.map(function (a) { return '<td>' + (hasVal(snap[a.id]) ? money.format(+snap[a.id]) : "–") + '</td>'; }).join("") +
+        '<td class="nw">' + (nw === null ? "–" : fmt(nw)) + '</td><td class="' + (ch > 0 ? "up" : ch < 0 ? "down" : "") + '">' + (ch === null ? "–" : signedFmt(ch)) + '</td>' +
+        '<td><button class="link" data-go-m="' + k + '">Edit</button><button class="link danger" data-delm="' + k + '">Delete</button></td></tr>';
+    });
+    body.innerHTML = h + '</tbody></table></div>';
+    body.querySelectorAll("[data-go-m]").forEach(function (b) { b.addEventListener("click", function () { atSel.month = +b.getAttribute("data-go-m").split("-")[1] - 1; renderMonthPanel(); }); });
+    body.querySelectorAll("[data-delm]").forEach(function (b) { b.addEventListener("click", function () {
       var k = b.getAttribute("data-delm");
-      ask({ title: "Delete " + mLabel(k) + "?", message: "All account balances logged for this month will be removed.", ok: "Delete month" }, function () {
-        delete state.snapshots[k]; save(); renderLogRows(); renderHistory(); renderTrack();
+      ask({ title: "Delete " + mLabel(k) + "?", message: "Start and end balances for every account this month will be removed.", ok: "Delete month" }, function () {
+        delete state.snapshots[k]; delete state.openings[k]; save(); renderMonthPanel(); renderTrack();
       });
     }); });
   }
+  $("atYearPrev").addEventListener("click", function () { atSel.year--; renderMonthPanel(); });
+  $("atYearNext").addEventListener("click", function () {
+    if (atSel.year >= new Date().getFullYear()) return;
+    atSel.year++; if (atSel.month !== "all" && isFuture(atSel.year, atSel.month)) atSel.month = new Date().getMonth(); renderMonthPanel();
+  });
 
   var atGeo = null;
   function renderTrack() {
@@ -1923,18 +2440,9 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   }
   $("atView").addEventListener("change", function () { state.tracking.view = $("atView").value; save(); renderTrack(); });
   $("atHorizon").addEventListener("change", function () { state.tracking.horizon = +$("atHorizon").value; save(); renderTrack(); });
-  $("atMonth").addEventListener("change", function () { $("atSaved").textContent = ""; renderLogRows(); });
   $("atAddAcct").addEventListener("click", function () {
     state.accounts.push({ id: uid(), name: "", type: "savings" }); save(); renderAccounts();
     var ins = $("acctList").querySelectorAll('input[type="text"]'); ins[ins.length - 1].focus();
-  });
-  $("atSave").addEventListener("click", function () {
-    var k = $("atMonth").value; if (!k) return;
-    var snap = {};
-    $("atLogRows").querySelectorAll("input[data-acc]").forEach(function (inp) { if (hasVal(inp.value)) snap[inp.getAttribute("data-acc")] = +inp.value; });
-    if (Object.keys(snap).length) state.snapshots[k] = snap; else delete state.snapshots[k];
-    save(); renderLogRows(); renderHistory(); renderTrack();
-    $("atSaved").textContent = Object.keys(snap).length ? "Saved " + mLabel(k) : "No balances entered";
   });
 
   /* Collapsible menu (remembered on this device) */
@@ -1976,7 +2484,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   /* ---------- Navigation ---------- */
   function show(page) {
     current = page;
-    ["dashboard", "income", "plan", "subs", "heatmap", "invest", "accounts", "contingency"].forEach(function (p) { $("page-" + p).hidden = p !== page; });
+    ["dashboard", "income", "plan", "subs", "heatmap", "invest", "accounts", "credit", "contingency"].forEach(function (p) { $("page-" + p).hidden = p !== page; });
     document.querySelectorAll(".navlist button").forEach(function (b) {
       if (b.getAttribute("data-page") === page) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
@@ -1989,6 +2497,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     if (page === "heatmap") { assignBuilt = false; renderHeatmap(); }
     if (page === "subs") renderSubs();
     if (page === "accounts") renderAccounts();
+    if (page === "credit") renderCredit();
     window.scrollTo({ top: 0 });
   }
   function renderAll() { renderIncome(); CATS.forEach(renderCat); renderSummary(); show(current); }
@@ -2013,7 +2522,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
     });
     function loadExample() {
       function it(n, a, f, d) { return { id: uid(), name: n, amount: String(a), freq: f, day: d || "" }; }
-      var keepAcc = { accounts: state.accounts, snapshots: state.snapshots, tracking: state.tracking };
+      var keepAcc = { accounts: state.accounts, snapshots: state.snapshots, openings: state.openings, tracking: state.tracking };
       if (!state.accounts.length) {
         var defs = [["Chequing", "chequing", 4200, 20, 600], ["High-interest savings", "savings", 12000, 650, 150], ["TFSA", "investment", 18000, 900, 1200],
                     ["RRSP", "investment", 26000, 700, 1500], ["Credit card", "debt", 2400, -90, 400], ["Car loan", "debt", 18500, -430, 0]];
@@ -2023,21 +2532,21 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
           defs.forEach(function (d, j) { row[accs[j].id] = Math.max(0, Math.round(d[2] + d[3] * (12 - n) + Math.sin((12 - n) * 1.7 + j) * d[4])); });
           snaps[key] = row;
         }
-        keepAcc = { accounts: accs, snapshots: snaps, tracking: { view: "net", horizon: 12 } };
+        keepAcc = { accounts: accs, snapshots: snaps, openings: {}, tracking: { view: "net", horizon: 12 } };
       }
       state = normalize({
         incomes: [it("Partner A pay", 2600, "biweekly", 9), it("Partner B pay", 2100, "biweekly", 2), it("Side consulting", 800, "monthly", 28)],
         needs: [it("Mortgage", 3200, "monthly", 1), it("Property tax", 5400, "annual", 1), it("Groceries", 210, "weekly", 6), it("Hydro and gas", 320, "monthly", 18), it("Car insurance", 210, "monthly", 15)],
         wants: [it("Dining out", 400, "monthly", 20), it("Streaming", 45, "monthly", 9), it("Hockey league", 650, "annual", 1), it("Travel fund", 300, "monthly", 25)],
         debts: [it("Car loan", 540, "monthly", 22), it("Credit card minimum", 120, "monthly", 26)],
-        accounts: keepAcc.accounts, snapshots: keepAcc.snapshots, tracking: keepAcc.tracking, subs: state.subs, subView: state.subView
+        accounts: keepAcc.accounts, snapshots: keepAcc.snapshots, openings: keepAcc.openings, tracking: keepAcc.tracking, subs: state.subs, subView: state.subView, credit: state.credit
       });
       renderAll(); save();
     }
   });
   $("reset").addEventListener("click", function () {
     ask({ title: "Clear income and spending?", message: "This removes every income source and spending item. Accounts and investment settings stay.", ok: "Clear" }, function () {
-      var keepA = { accounts: state.accounts, snapshots: state.snapshots, tracking: state.tracking, invest: state.invest, subs: state.subs, subView: state.subView };
+      var keepA = { accounts: state.accounts, snapshots: state.snapshots, openings: state.openings, tracking: state.tracking, invest: state.invest, subs: state.subs, subView: state.subView, credit: state.credit };
       state = normalize(Object.assign(blank(), keepA)); renderAll(); save();
     });
   });
@@ -2074,7 +2583,7 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
   rGo.addEventListener("click", function () {
     if (!rCheck.checked) return;
     state = blank();
-    $("atMonth").value = ""; $("atSaved").textContent = "";
+    atSel = { year: new Date().getFullYear(), month: new Date().getMonth() };
     clearTimeout(saveTimer); persist();
     lastFocus = null; closeReset();
     renderIncome(); CATS.forEach(renderCat); renderSummary(); show("income");
@@ -2087,3 +2596,5 @@ table.hist { border-collapse: collapse; width: 100%; font-size: .9rem; }
 </script>
 </body>
 </html>
+
+</body></html>
